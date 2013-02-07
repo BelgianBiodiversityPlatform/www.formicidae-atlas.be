@@ -1,14 +1,35 @@
-{% load cms_tags sekizai_tags %}
-<html>
-  <head>
-  	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap.min.css" media="all" />
-    {% render_block "css" %}
-  </head>
-  <body>
-      {% cms_toolbar %}
-      <h1>Toto</h1>
-      {% placeholder base_content %}
-      {% block base_content %}{% endblock %}
-      {% render_block "js" %}
-  </body>
+{% load cms_tags sekizai_tags menu_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap.min.css" media="all" />
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/formidabel.css" media="all" />
+	{% render_block "css" %}
+</head>
+<body>
+	{% cms_toolbar %}
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<a class="brand" href="#">Formidabel</a>
+			<ul class="nav">
+				{% show_menu 0 100 100 100 "menu.html" %}
+			</ul>	
+		</div>	
+	</div>
+
+	<div class="container">
+		<div class="row">
+			<div class="span12">
+				<h1>Toto</h1>
+				{% placeholder base_content %}
+				{% block base_content %}{% endblock %}
+			</div>
+		</div>
+	</div>		
+
+	<script src="{{ STATIC_URL }}js/jquery-1.9.1.min.js" type="text/javascript"></script>
+	<script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
+	{% render_block "js" %}
+</body>
 </html>
