@@ -1,10 +1,12 @@
 {% load cms_tags sekizai_tags %}
 <html>
   <head>
-      {% render_block "css" %}
+  	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap.min.css" media="all" />
+    {% render_block "css" %}
   </head>
   <body>
       {% cms_toolbar %}
+      <h1>Toto</h1>
       {% placeholder base_content %}
       {% block base_content %}{% endblock %}
       {% render_block "js" %}
