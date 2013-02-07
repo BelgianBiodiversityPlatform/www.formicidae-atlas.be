@@ -124,7 +124,10 @@ INSTALLED_APPS = (
     'mptt',
     'menus',
     'south',
-    'sekizai'
+    'sekizai',
+
+    'django.contrib.markup',
+    'cmsplugin_markdown',
 )
 
 # A sample logging configuration. The only tangible logging

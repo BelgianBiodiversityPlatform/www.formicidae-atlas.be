@@ -1,5 +1,7 @@
 Django==1.4.3
+Markdown==2.2.1
 South==0.7.6
+cmsplugin-markdown==0.1
 django-classy-tags==0.4
 django-cms==2.3.5
 django-mptt==0.5.2
