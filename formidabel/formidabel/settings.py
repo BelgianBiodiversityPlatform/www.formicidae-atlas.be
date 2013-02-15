@@ -128,6 +128,8 @@ INSTALLED_APPS = (
 
     'django.contrib.markup',
     'cmsplugin_markdown',
+
+    'ants_atlas',
 )
 
 # A sample logging configuration. The only tangible logging
