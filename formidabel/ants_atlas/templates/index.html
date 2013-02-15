@@ -1,7 +1,21 @@
 {% extends "base.html" %}
-{% load cms_tags %}
+{% load cms_tags sekizai_tags %}
+
+
 
 {% block base_content %}
+	{# Intro text can be configured in Django-CMS #}
 	{% placeholder base_content %}
+
 	<h1>Species map</h1>
+	{% addtoblock "js" %}<script type="text/javascript" src="{{ STATIC_URL }}ants_atlas/js/underscore-min.js"></script>{% endaddtoblock %}
+	{% addtoblock "js" %}<script type="text/javascript" src="{{ STATIC_URL }}ants_atlas/js/backbone-min.js"></script>{% endaddtoblock %}
+	{% addtoblock "js" %}<script type="text/javascript" src="{{ STATIC_URL }}ants_atlas/js/ants_atlas.js"></script>{% endaddtoblock %}
+	{% addtoblock "js" %}
+		<script type="text/javascript">
+			$(function(){
+				window._formidabel.atlas.bootstrap();
+			});
+		</script>
+	{% endaddtoblock %}
 {% endblock %}	
