@@ -12,14 +12,16 @@ def create_occurrence_from_dwcaline(line):
     occ = Occurrence()
 
     # Simple fields
+    # TODO: move these long Dwc strings to a specific module ?
     occ.catalog_number = line.get('http://rs.tdwg.org/dwc/terms/catalogNumber')
     occ.scientificname = line.get('http://rs.tdwg.org/dwc/terms/scientificName')
 
-    # Foreign keys
+    # Foreign keys - MGRS square
+    # TODO: Facorize this logic ?
     mgrs_id = line.get('http://rs.tdwg.org/dwc/terms/verbatimCoordinates')
     try:
         square = MGRSSquare.objects.get(label__exact=mgrs_id)
-    except ObjectDoesNotExist:
+    except ObjectDoesNotExist: # If it soen't exists, let's create it !
         square = MGRSSquare()
         square.label = mgrs_id
         square.save()    
