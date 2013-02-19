@@ -8,7 +8,8 @@
         
         var Occurrence = Backbone.Model.extend({});
         var OccurrenceList = Backbone.Collection.extend({
-			model: Occurrence
+			model: Occurrence,
+            url: '/machin'
         });
         
         var OccurrenceSearch = Backbone.Model.extend({
