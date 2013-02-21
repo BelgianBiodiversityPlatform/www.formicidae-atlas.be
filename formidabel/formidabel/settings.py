@@ -132,6 +132,7 @@ INSTALLED_APPS = (
     'ants_atlas',
 
     'tastypie',
+    'backbone_tastypie',
 )
 
 # A sample logging configuration. The only tangible logging

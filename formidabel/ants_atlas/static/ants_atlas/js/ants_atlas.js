@@ -9,21 +9,28 @@
         var Occurrence = Backbone.Model.extend({});
         var OccurrenceList = Backbone.Collection.extend({
 			model: Occurrence,
-            url: '/api/v1/species/'
+
+            initialize: function(species_id){
+                this.species_id = species_id;
+            },
+
+            url: function(){
+                return '/api/v1/species/' + this.species_id;
+            }
         });
         
         var OccurrenceSearch = Backbone.Model.extend({
             // Fill the data from server
             // Should we overrive fetch instead ?
             loadOccurrences: function(){
-                var col = new OccurrenceList();
+                var col = new OccurrenceList(this.get('species_id'));
 
-                this.set({occurrences: col.fetch(this.get('species_id'))});
+                this.set({occurrences: col.fetch()});
             }
         });
 
         var bootstrap = function(){
-			var s = new OccurrenceSearch({species_id: 371, color: '#ab13cc'});
+			var s = new OccurrenceSearch({species_id: 372, color: '#ab13cc'});
             s.loadOccurrences();
         };
 
