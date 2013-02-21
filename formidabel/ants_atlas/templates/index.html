@@ -1,23 +1,33 @@
 {% extends "base.html" %}
 {% load cms_tags sekizai_tags %}
 
-
-
 {% block base_content %}
 	{# Intro text can be configured in Django-CMS #}
 	{% placeholder base_content %}
 
-	<h1>Species map</h1>
+	<div id="ants_atlas">
+		<h1>Species map</h1>
+
+		<form id="search">
+			<input type="text" name="species_id" id="species_id" />
+			<input type="submit" value="search" />
+		</form>
+
+		<div id="search_list"></div>
+	</div>
+
 	{% addtoblock "js" %}<script type="text/javascript" src="{{ STATIC_URL }}ants_atlas/js/underscore-min.js"></script>{% endaddtoblock %}
 	{% addtoblock "js" %}<script type="text/javascript" src="{{ STATIC_URL }}ants_atlas/js/backbone-min.js"></script>{% endaddtoblock %}
 
 	{% addtoblock "js" %}<script type="text/javascript" src="{{ STATIC_URL }}js/backbone-tastypie.js"></script>{% endaddtoblock %}
 	{% addtoblock "js" %}<script type="text/javascript" src="{{ STATIC_URL }}ants_atlas/js/ants_atlas.js"></script>{% endaddtoblock %}
 	{% addtoblock "js" %}
-		<script type="text/javascript">
-			$(function(){
-				window._formidabel.atlas.bootstrap();
-			});
-		</script>
+
+	<script type="text/javascript">
+	$(function(){
+		window._formidabel.atlas.bootstrap($('#ants_atlas'));
+	});
+	</script>
+	
 	{% endaddtoblock %}
 {% endblock %}	
