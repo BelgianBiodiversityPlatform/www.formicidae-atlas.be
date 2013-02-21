@@ -1,25 +1,24 @@
 from optparse import make_option
 
 from django.core.management.base import BaseCommand, CommandError
-from django.core.exceptions import ObjectDoesNotExist
-from ants_atlas.models import Occurrence, MGRSSquare, Family, Genus
+from ants_atlas.models import Occurrence, MGRSSquare, Family, Genus, Species
 
 from dwca import DwcAReader
 
-def get_or_create_related_tuple(Model, column_name, value):
-    try:
-        keyword = column_name + "__exact"
-        obj = Model.objects.get(**{keyword: value})
-    except ObjectDoesNotExist:
-        obj = Model()
-        setattr(obj, column_name, value)
-        obj.save()
 
-    return obj
+def get_or_create_taxonomy(family, genus, species, scientificname, specificepithet):
+    # Let's start with the leaves, then go up, creating necessary instances on the fly
+    f = Family.objects.get_or_create(name=family)[0]
+    g = Genus.objects.get_or_create(name=genus, family=f)[0]
+
+    return Species.objects.get_or_create(genus=g, scientificname=scientificname, specificepithet=specificepithet)[0]
+
 
 def truncate_all_tables():
-    Occurrence.objects.all().delete()
-    MGRSSquare.objects.all().delete()
+    models_to_truncate = [Occurrence, MGRSSquare, Family, Genus, Species]
+    for model in models_to_truncate:
+        model.objects.all().delete()
+
 
 def create_occurrence_from_dwcaline(line):
     #import pdb; pdb.set_trace()
@@ -28,23 +27,25 @@ def create_occurrence_from_dwcaline(line):
     # Simple fields
     # TODO: move these long Dwc strings to a specific module ?
     occ.catalog_number = line.get('http://rs.tdwg.org/dwc/terms/catalogNumber')
-    occ.scientificname = line.get('http://rs.tdwg.org/dwc/terms/scientificName')
+    occ.scientificname = ''  # TODO: Remove this field
     event_date = line.get('http://rs.tdwg.org/dwc/terms/eventDate')
     if event_date != '':
         occ.event_date = event_date
 
     # Foreign keys
     mgrs_id = line.get('http://rs.tdwg.org/dwc/terms/verbatimCoordinates')
-    occ.square = get_or_create_related_tuple(MGRSSquare, 'label', mgrs_id)
+    occ.square = MGRSSquare.objects.get_or_create(label=mgrs_id)[0]
 
-    family = line.get('http://rs.tdwg.org/dwc/terms/family')
-    occ.family = get_or_create_related_tuple(Family, 'name', family)
-
+    species = line.get('http://rs.tdwg.org/dwc/terms/specificEpithet')
     genus = line.get('http://rs.tdwg.org/dwc/terms/genus')
-    if genus != '':
-        occ.genus = get_or_create_related_tuple(Genus, 'name', genus)
+    family = line.get('http://rs.tdwg.org/dwc/terms/family')
+    scientificname = line.get('http://rs.tdwg.org/dwc/terms/scientificName')
+    specificepithet = line.get('http://rs.tdwg.org/dwc/terms/specificEpithet')
+
+    occ.species = get_or_create_taxonomy(family, genus, species, scientificname, specificepithet)
 
     occ.save()
+
 
 # Should receive the path to source DwcA and an optional --truncate parameter
 class Command(BaseCommand):

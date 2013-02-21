@@ -9,7 +9,7 @@
         var Occurrence = Backbone.Model.extend({});
         var OccurrenceList = Backbone.Collection.extend({
 			model: Occurrence,
-            url: '/machin'
+            url: '/api/v1/species/'
         });
         
         var OccurrenceSearch = Backbone.Model.extend({
@@ -18,18 +18,18 @@
             loadOccurrences: function(){
                 var col = new OccurrenceList();
 
-                this.set({occurrences: col.fetch()});
+                this.set({occurrences: col.fetch(this.get('species_id'))});
             }
         });
 
         var bootstrap = function(){
-			var s = new OccurrenceSearch({species_id: 5, color: '#ab13cc'});
+			var s = new OccurrenceSearch({species_id: 371, color: '#ab13cc'});
             s.loadOccurrences();
         };
 
         // Export public members
         return {
-			bootstrap: bootstrap 
+			bootstrap: bootstrap
         };
 
     }());
