@@ -130,6 +130,8 @@ INSTALLED_APPS = (
     'cmsplugin_markdown',
 
     'ants_atlas',
+
+    'tastypie',
 )
 
 # A sample logging configuration. The only tangible logging
