@@ -6,7 +6,12 @@
     var atlas = formidabel.atlas = formidabel.atlas || (function(){
         var privateVar = [];
         
-        var Occurrence = Backbone.Model.extend({});
+        var Occurrence = Backbone.Model.extend({
+            addToMap: function(){
+                console.log("Ajout occurrence");
+            }
+        });
+
         var OccurrenceList = Backbone.Collection.extend({
 			model: Occurrence,
 
@@ -33,22 +38,31 @@
                 col = new OccurrenceList(this.get('species_id'));
                 this.set('collection', col); // We'll now have a collection attribute
                 
+                var that = this;
                 col.fetch({success: function(){
-                    // The collection is now filled with Occurrences
-                    console.log(col);
+                    // Once its loaded, render that !
+                    v = new OccurrenceSearchView({model: that});
+                    v.render();
                 }});
-                
-                //this.set({occurrences: col.fetch()});
             }
         });
 
-        /*var OccurrenceSearchView = Backbone.View.extend({
-            el: $('#search_list'), // TODO: ! Decouple !!!
+        // Should receive a OccurrenceSearch as model argument
+        var OccurrenceSearchView = Backbone.View.extend({
+            el: $('#search_list'), // TODO: decouple
 
             render: function(){
-                $(this.el).append('<p>Hello world !</p>');
+                var m = this.model;
+
+                // Add to search list
+                $(this.el).append('<p>Recherche species ' + m.get('species_id') + '</p>');
+                // Ask each occurrence to render itself
+                m.get('collection').each(function(occ){
+                    occ.addToMap();
+                });
+
             }
-        });*/
+        });
 
         var SearchView = Backbone.View.extend({
             events: {
