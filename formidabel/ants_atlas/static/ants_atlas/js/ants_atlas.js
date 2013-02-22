@@ -9,6 +9,7 @@
         var Occurrence = Backbone.Model.extend({
             addToMap: function(){
                 console.log("Ajout occurrence");
+                console.log(this.attributes);
             }
         });
 
@@ -81,10 +82,21 @@
             }
         });
 
-        var bootstrap = function(app_container){
-            // Main view that observes the search form
-            var f = new SearchView({el: app_container});
+        var mapInit = function(map_options){
+            // Todo: make dom element configurable
+            var map = L.map('map').setView(map_options.initial_location, map_options.initial_zoom);
 
+            L.tileLayer('http://{s}.tile.cloudmade.com/' + map_options.cloudmade_api_key + '/' + map_options.cloudmade_style_id + '/256/{z}/{x}/{y}.png', {
+                attribution: map_options.attribution,
+                maxZoom: map_options.max_zoom
+            }).addTo(map);
+        };
+
+        var bootstrap = function(app_container, map_options){
+            // Main view that observes the search form
+            mapInit(map_options);
+
+            var f = new SearchView({el: app_container});
         };
 
         // Export public members
