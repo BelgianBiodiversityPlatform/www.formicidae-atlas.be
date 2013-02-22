@@ -4,7 +4,41 @@
 ; (function($, formidabel, window, document, undefined) {
 	// Atlas follows the Module pattern
     var atlas = formidabel.atlas = formidabel.atlas || (function(){
-        var privateVar = [];
+        var squares;
+
+        var SQUARE_PROVIDER = (function(){
+            var squares;
+
+            var loadSquaresData = function (squares_source_url) {
+                var json = null;
+                $.ajax({ 'async': false, 'global': false, 'url': squares_source_url,
+                'dataType': "json",
+                'success': function (data) {
+                    json = data;
+                    }
+                });
+                return json;
+            };
+
+            var initialize = function(squares_source_url){
+                squares = loadSquaresData(squares_source_url);
+            };
+
+            var getSquare = function(square_id){
+                // Returns GeoJSON object corresponding to the Square ID, or undefined.
+                var square = _.find(squares.features, function(sq){
+                    return sq.properties.TAG == square_id;
+                });
+                return square;
+            };
+
+            return {
+                'initialize': initialize,
+                'getSquare': getSquare
+            };
+
+
+        })();
         
         var Occurrence = Backbone.Model.extend({
             addToMap: function(){
@@ -92,8 +126,16 @@
             }).addTo(map);
         };
 
-        var bootstrap = function(app_container, map_options){
+
+        // TODO: Move loadSquaresData(), getSquare() and the squares variable to a specific (squaresProvider?) module.
+        
+
+        /**/
+
+        var bootstrap = function(app_container, map_options, app_options){
             // Main view that observes the search form
+            SQUARE_PROVIDER.initialize(app_options.squares_source_url);
+
             mapInit(map_options);
 
             var f = new SearchView({el: app_container});
@@ -101,7 +143,8 @@
 
         // Export public members
         return {
-			bootstrap: bootstrap
+			bootstrap: bootstrap,
+            sq: SQUARE_PROVIDER.getSquare
         };
 
     }());

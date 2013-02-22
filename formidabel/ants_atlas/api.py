@@ -1,7 +1,13 @@
 from tastypie.resources import ModelResource
 from tastypie import fields
 
-from ants_atlas.models import Occurrence, Species
+from ants_atlas.models import Occurrence, Species, MGRSSquare
+
+
+class MGRSSquareResource(ModelResource):
+    class Meta:
+        queryset = MGRSSquare.objects.all()
+        resource_name = 'square'
 
 
 class SpeciesResource(ModelResource):
@@ -17,7 +23,7 @@ class SpeciesResource(ModelResource):
 class OccurrenceResource(ModelResource):
     # Don't include species for performance
     # (we already access occurrences trough the species)
-    #species = fields.ForeignKey(SpeciesResource, 'species')
+    square = fields.ForeignKey(MGRSSquareResource, 'square', full=True)
 
     class Meta:
         queryset = Occurrence.objects.all()
