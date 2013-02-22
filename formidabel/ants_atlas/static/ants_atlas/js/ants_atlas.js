@@ -4,7 +4,7 @@
 ; (function($, formidabel, window, document, undefined) {
 	// Atlas follows the Module pattern
     var atlas = formidabel.atlas = formidabel.atlas || (function(){
-        var squares;
+        var map;
 
         var SQUARE_PROVIDER = (function(){
             var squares;
@@ -41,10 +41,10 @@
         })();
         
         var Occurrence = Backbone.Model.extend({
-            addToMap: function(){
+            /*addToMap: function(){
                 console.log("Ajout occurrence");
                 console.log(this.attributes);
-            }
+            }*/
         });
 
         var OccurrenceList = Backbone.Collection.extend({
@@ -91,10 +91,24 @@
 
                 // Add to search list
                 $(this.el).append('<p>Recherche species ' + m.get('species_id') + '</p>');
+                
+                /*
                 // Ask each occurrence to render itself
                 m.get('collection').each(function(occ){
                     occ.addToMap();
                 });
+                */
+
+                // Create a new GeoJSON layer for the search
+                m.layer = L.geoJson().addTo(map);
+
+                // Add the squares according to occurrences
+                m.get('collection').each(function(occ){
+                    //console.log(occ);
+                    m.layer.addData(SQUARE_PROVIDER.getSquare(occ.attributes.square.label));
+                });
+
+                
 
             }
         });
@@ -107,7 +121,7 @@
             trigger_search: function(){
                 var s = new OccurrenceSearch({
                     species_id: this.$('#species_id').val(),
-                    color: '#ab13cc' // Make color configurable
+                    color: '#ab13cc' // TODO: Make color configurable
                 });
 
                 s.loadOccurrences();
@@ -118,19 +132,13 @@
 
         var mapInit = function(map_options){
             // Todo: make dom element configurable
-            var map = L.map('map').setView(map_options.initial_location, map_options.initial_zoom);
+            map = L.map('map').setView(map_options.initial_location, map_options.initial_zoom);
 
             L.tileLayer('http://{s}.tile.cloudmade.com/' + map_options.cloudmade_api_key + '/' + map_options.cloudmade_style_id + '/256/{z}/{x}/{y}.png', {
                 attribution: map_options.attribution,
                 maxZoom: map_options.max_zoom
             }).addTo(map);
         };
-
-
-        // TODO: Move loadSquaresData(), getSquare() and the squares variable to a specific (squaresProvider?) module.
-        
-
-        /**/
 
         var bootstrap = function(app_container, map_options, app_options){
             // Main view that observes the search form
@@ -143,8 +151,8 @@
 
         // Export public members
         return {
-			bootstrap: bootstrap,
-            sq: SQUARE_PROVIDER.getSquare
+			bootstrap: bootstrap/*,
+            sq: SQUARE_PROVIDER.getSquare*/
         };
 
     }());
