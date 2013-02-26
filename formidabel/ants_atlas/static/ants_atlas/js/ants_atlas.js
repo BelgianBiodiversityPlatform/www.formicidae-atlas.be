@@ -86,31 +86,36 @@
         var OccurrenceSearchView = Backbone.View.extend({
             el: $('#search_list'), // TODO: decouple
 
+            events: {
+                'click .remove': 'remove'
+            },
+
             render: function(){
                 var m = this.model;
 
                 // Add to search list
-                $(this.el).append('<p>Recherche species ' + m.get('species_id') + '</p>');
-                
-                /*
-                // Ask each occurrence to render itself
-                m.get('collection').each(function(occ){
-                    occ.addToMap();
-                });
-                */
+                m.layer_list_entry = $('<p>Recherche species ' + m.get('species_id') + ' <span class="remove">Remove</span>'+ '</p>');
+               
+               $(this.el).append(m.layer_list_entry);
 
                 // Create a new GeoJSON layer for the search
                 m.layer = L.geoJson().addTo(map);
 
                 // Add the squares according to occurrences
                 m.get('collection').each(function(occ){
-                    //console.log(occ);
+                    // TODO: Better display (only one square per location, but with a counter and styling)
                     m.layer.addData(SQUARE_PROVIDER.getSquare(occ.attributes.square.label));
                 });
+            },
 
-                
+            remove: function(){
+                var m = this.model;
 
+                map.removeLayer(m.layer);
+                m.layer_list_entry.remove();
+                //$(this.el).remove(m.layer_list_entry);
             }
+            
         });
 
         var SearchView = Backbone.View.extend({
@@ -141,12 +146,9 @@
         };
 
         var bootstrap = function(app_container, map_options, app_options){
-            // Main view that observes the search form
             SQUARE_PROVIDER.initialize(app_options.squares_source_url);
-
             mapInit(map_options);
-
-            var f = new SearchView({el: app_container});
+            var f = new SearchView({el: app_container}); // Main view that observes the search form
         };
 
         // Export public members
