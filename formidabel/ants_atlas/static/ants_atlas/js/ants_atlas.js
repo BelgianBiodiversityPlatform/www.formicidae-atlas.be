@@ -25,10 +25,12 @@
             };
 
             var getSquare = function(square_id){
-                // Returns GeoJSON object corresponding to the Square ID, or undefined.
+                // Returns GeoJSON object corresponding to the Square ID, or undefined if square is not found.
+            
                 var square = _.find(squares.features, function(sq){
                     return sq.properties.TAG == square_id;
                 });
+
                 return square;
             };
 
@@ -103,7 +105,10 @@
                 // Add the squares according to occurrences
                 m.get('collection').each(function(occ){
                     // TODO: Better display (only one square per location, but with a counter and styling)
-                    m.layer.addData(SQUARE_PROVIDER.getSquare(occ.attributes.square.label));
+                    var square_data = SQUARE_PROVIDER.getSquare(occ.attributes.square.label);
+                    if (square_data !== undefined){
+                        m.layer.addData(square_data);
+                    }
                 });
 
                 // Display us in container

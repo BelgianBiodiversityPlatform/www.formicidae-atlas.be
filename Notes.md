@@ -4,6 +4,8 @@
 * Use HTML templating with backbone
 * Imagine UI withh full-size / background map
 * Better color picker: default value, show color, ...
+* Complex style when multiple searches on one square
+* BUG: !! Some squares are outside of Belgium (but close!)...
 
 # How to edit Bootstrap theme (changing colors, ...)
 
