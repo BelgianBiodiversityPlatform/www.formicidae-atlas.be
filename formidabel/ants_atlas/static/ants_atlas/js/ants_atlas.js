@@ -41,10 +41,7 @@
         })();
         
         var Occurrence = Backbone.Model.extend({
-            /*addToMap: function(){
-                console.log("Ajout occurrence");
-                console.log(this.attributes);
-            }*/
+            
         });
 
         var OccurrenceList = Backbone.Collection.extend({
@@ -84,36 +81,38 @@
 
         // Should receive a OccurrenceSearch as model argument
         var OccurrenceSearchView = Backbone.View.extend({
-            el: $('#search_list'), // TODO: decouple
-
             events: {
-                'click .remove': 'remove'
+                'click .remove': 'myremove'
             },
 
             render: function(){
+                var layerStyle;
                 var m = this.model;
 
                 // Add to search list
-                m.layer_list_entry = $('<p>Recherche species ' + m.get('species_id') + ' <span class="remove">Remove</span>'+ '</p>');
+                m.layer_list_entry = $('<p id="s_s_' + m.get('species_id') + '">Recherche species ' + m.get('species_id') + ' <span class="remove">Remove</span>'+ '</p>');
                
-               $(this.el).append(m.layer_list_entry);
+                $(this.el).html(m.layer_list_entry);
 
                 // Create a new GeoJSON layer for the search
-                m.layer = L.geoJson().addTo(map);
+                layerStyle = {
+                    color: m.get('color')
+                };
+                m.layer = L.geoJson([], {style: layerStyle}).addTo(map);
 
                 // Add the squares according to occurrences
                 m.get('collection').each(function(occ){
                     // TODO: Better display (only one square per location, but with a counter and styling)
                     m.layer.addData(SQUARE_PROVIDER.getSquare(occ.attributes.square.label));
                 });
+
+                // Display us in container
+                $('#search_list').append(this.$el); // TODO: decouple
             },
 
-            remove: function(){
-                var m = this.model;
-
-                map.removeLayer(m.layer);
-                m.layer_list_entry.remove();
-                //$(this.el).remove(m.layer_list_entry);
+            myremove: function(){
+                map.removeLayer(this.model.layer); // Do our specific stuff...
+                this.remove(); // Then call backbone's remove() to kill el
             }
             
         });
@@ -126,7 +125,7 @@
             trigger_search: function(){
                 var s = new OccurrenceSearch({
                     species_id: this.$('#species_id').val(),
-                    color: '#ab13cc' // TODO: Make color configurable
+                    color: this.$('#color_code').val() // TODO: Make color configurable
                 });
 
                 s.loadOccurrences();
