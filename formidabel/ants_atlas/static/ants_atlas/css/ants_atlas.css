@@ -1,0 +1,10 @@
+#search_list {
+    float: left;
+    width: 150px;
+}
+
+#map {
+    width: 790px;
+    height: 600px;
+    float: left;
+}

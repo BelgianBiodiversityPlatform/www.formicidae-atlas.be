@@ -1,5 +1,9 @@
 # TODO
 
+* Compare data to real atlas
+* Use HTML templating with backbone
+* Imagine UI withh full-size / background map
+* Better color picker: default value, show color, ...
 
 # How to edit Bootstrap theme (changing colors, ...)
 
@@ -14,7 +18,8 @@
 * createdb -U postgres -h localhost -p 5432 formidabel
 
 
-
+# API:
+http://localhost:8000/en/api/v1/genus/3/?format=json => 
 
 
 

@@ -90,7 +90,7 @@
                 var m = this.model;
 
                 // Add to search list
-                m.layer_list_entry = $('<p id="s_s_' + m.get('species_id') + '">Recherche species ' + m.get('species_id') + ' <span class="remove">Remove</span>'+ '</p>');
+                m.layer_list_entry = $('<p>Recherche species ' + m.get('species_id') + ' <span class="remove">Remove</span>'+ '</p>');
                
                 $(this.el).html(m.layer_list_entry);
 
