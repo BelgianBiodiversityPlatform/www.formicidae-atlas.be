@@ -89,30 +89,59 @@
 
             render: function(){
                 var layerStyle;
+                var squaresToDisplay;
+                var found;
+
                 var m = this.model;
 
-                // Add to search list
+                // 1. Add to search list
                 m.layer_list_entry = $('<p>Recherche species ' + m.get('species_id') + ' <span class="remove">Remove</span>'+ '</p>');
-               
                 $(this.el).html(m.layer_list_entry);
+                $('#search_list').append(this.$el); // TODO: decouple
 
-                // Create a new GeoJSON layer for the search
-                layerStyle = {
-                    color: m.get('color')
-                };
-                m.layer = L.geoJson([], {style: layerStyle}).addTo(map);
-
-                // Add the squares according to occurrences
+                // 2. Add to map
+                squaresToDisplay = [];
+                
+                // 2.1 Fill squaresToDisplay with square label and # of occurrences
                 m.get('collection').each(function(occ){
-                    // TODO: Better display (only one square per location, but with a counter and styling)
-                    var square_data = SQUARE_PROVIDER.getSquare(occ.attributes.square.label);
-                    if (square_data !== undefined){
-                        m.layer.addData(square_data);
+                    found = false;
+                    _.each(squaresToDisplay, function(sq){
+                        if (sq.label === occ.attributes.square.label) {
+                            sq.counter += 1;
+                            found = true;
+                        }
+                    });
+                    if (found === false){
+                        squaresToDisplay.push({
+                            label: occ.attributes.square.label,
+                            counter: 1
+                        });
                     }
                 });
 
-                // Display us in container
-                $('#search_list').append(this.$el); // TODO: decouple
+                // 2.2 Create layer...
+                /*layerStyle = {
+                    color: m.get('color')
+                };*/
+                layerStyle = function(feature){
+                    return {
+                        color: m.get('color'),
+                        fillOpacity: feature.properties.occurrence_counter / 5.0
+                    };
+                };
+
+                m.layer = L.geoJson([], {style: layerStyle}).addTo(map);
+                
+                // 2.3 and fill it
+                _.each(squaresToDisplay, function(s){
+                    var square_data = SQUARE_PROVIDER.getSquare(s.label);
+                    if (square_data !== undefined){
+                        square_data.properties.occurrence_counter = s.counter;
+                        console.log(square_data);
+                        m.layer.addData(square_data);
+                    }
+                });
+                
             },
 
             myremove: function(){
