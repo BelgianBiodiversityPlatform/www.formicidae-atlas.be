@@ -144,6 +144,7 @@
             },
 
             myremove: function(){
+                layerControl.removeLayer(this.model.layer);
                 map.removeLayer(this.model.layer); // Do our specific stuff...
                 this.remove(); // Then call backbone's remove() to kill el
             }
@@ -186,15 +187,7 @@
                 "Google satellite": google
             };
 
-            /*
-            var phyto = new OpenLayers.Layer.WMS(
-        "Phytoregions", "http://gis.bebif.be:80/geoserver2/wms",
-        {
-            srs: 'EPSG:900913',
-            layers: 'bbpf:Regions_Phyto_Clipped',
-            transparent: true
-        }*/
-
+            // TODO: Make it configurable
             var phytonregions = L.tileLayer.wms("http://gis.bebif.be:80/geoserver2/wms", {
                 layers: 'bbpf:Regions_Phyto_Clipped',
                 format: 'image/png',
