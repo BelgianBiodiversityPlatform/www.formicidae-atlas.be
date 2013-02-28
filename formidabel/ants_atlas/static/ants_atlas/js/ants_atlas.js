@@ -39,7 +39,6 @@
                 'getSquare': getSquare
             };
 
-
         })();
         
         var Occurrence = Backbone.Model.extend({
@@ -106,12 +105,14 @@
                 m.get('collection').each(function(occ){
                     found = false;
                     _.each(squaresToDisplay, function(sq){
+                        // If object already exists, increment counter
                         if (sq.label === occ.attributes.square.label) {
                             sq.counter += 1;
                             found = true;
                         }
                     });
                     if (found === false){
+                        // Else, add a new one
                         squaresToDisplay.push({
                             label: occ.attributes.square.label,
                             counter: 1
@@ -120,9 +121,6 @@
                 });
 
                 // 2.2 Create layer...
-                /*layerStyle = {
-                    color: m.get('color')
-                };*/
                 layerStyle = function(feature){
                     return {
                         color: m.get('color'),
@@ -137,7 +135,7 @@
                     var square_data = SQUARE_PROVIDER.getSquare(s.label);
                     if (square_data !== undefined){
                         square_data.properties.occurrence_counter = s.counter;
-                        console.log(square_data);
+                        //console.log(square_data);
                         m.layer.addData(square_data);
                     }
                 });
@@ -186,8 +184,7 @@
 
         // Export public members
         return {
-			bootstrap: bootstrap/*,
-            sq: SQUARE_PROVIDER.getSquare*/
+			bootstrap: bootstrap
         };
 
     }());

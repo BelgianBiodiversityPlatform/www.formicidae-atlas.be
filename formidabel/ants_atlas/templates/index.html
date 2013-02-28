@@ -10,7 +10,17 @@
 
 		<form id="search" class="form-inline">
 			<label for="species_id">Species: </label>
-			<input type="text" name="species_id" id="species_id" />
+			{# <input type="text" name="species_id" id="species_id" /> #}
+
+			<select id="species_id">
+				{% for g in genus %}
+					<optgroup label="{{ g.name }}">
+						{% for s in g.species_set.all %}
+							<option value="{{ s.pk }}">{{ s.scientificname }}</option>
+						{% endfor %}
+					</optgroup>
+				{% endfor %}
+			</select>
 
 			<label for="color_code">Color: </label>
 			<input type="text" name="color_code" id="color_code" class="colorpicker input-mini"/>

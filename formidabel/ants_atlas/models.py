@@ -10,11 +10,17 @@ class Family(models.Model):
 
 
 class Genus(models.Model):
+    class Meta:
+        ordering = ['name']
+
     name = models.CharField(max_length=50)
     family = models.ForeignKey(Family, blank=True, null=True)
 
 
 class Species(models.Model):
+    class Meta:
+        ordering = ['scientificname']
+
     scientificname = models.CharField(max_length=255)
     specificepithet = models.CharField(max_length=50)
 
