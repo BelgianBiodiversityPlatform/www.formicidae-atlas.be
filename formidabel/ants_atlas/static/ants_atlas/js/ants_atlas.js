@@ -5,6 +5,7 @@
 	// Atlas follows the Module pattern
     var atlas = formidabel.atlas = formidabel.atlas || (function(){
         var map;
+        var layerControl;
 
         var SQUARE_PROVIDER = (function(){
             var squares;
@@ -94,7 +95,7 @@
                 var m = this.model;
 
                 // 1. Add to search list
-                m.layer_list_entry = $('<p>Recherche species ' + m.get('species_id') + ' <span class="remove">Remove</span>'+ '</p>');
+                m.layer_list_entry = $('<p>Species ' + m.get('species_id') + ' <span class="remove">Remove</span>'+ '</p>');
                 $(this.el).html(m.layer_list_entry);
                 $('#search_list').append(this.$el); // TODO: decouple
 
@@ -129,13 +130,13 @@
                 };
 
                 m.layer = L.geoJson([], {style: layerStyle}).addTo(map);
+                layerControl.addOverlay(m.layer, 'Species' + m.get('species_id'));
                 
                 // 2.3 and fill it
                 _.each(squaresToDisplay, function(s){
                     var square_data = SQUARE_PROVIDER.getSquare(s.label);
                     if (square_data !== undefined){
                         square_data.properties.occurrence_counter = s.counter;
-                        //console.log(square_data);
                         m.layer.addData(square_data);
                     }
                 });
@@ -168,12 +169,21 @@
 
         var mapInit = function(map_options){
             // Todo: make dom element configurable
+            var cloudmade;
+            var baseLayers;
+
             map = L.map('map').setView(map_options.initial_location, map_options.initial_zoom);
 
-            L.tileLayer('http://{s}.tile.cloudmade.com/' + map_options.cloudmade_api_key + '/' + map_options.cloudmade_style_id + '/256/{z}/{x}/{y}.png', {
+            cloudmade = L.tileLayer('http://{s}.tile.cloudmade.com/' + map_options.cloudmade_api_key + '/' + map_options.cloudmade_style_id + '/256/{z}/{x}/{y}.png', {
                 attribution: map_options.attribution,
                 maxZoom: map_options.max_zoom
             }).addTo(map);
+
+            baseLayers = {
+                "CloudMade": cloudmade
+            };
+
+            layerControl = L.control.layers(baseLayers, {}).addTo(map);
         };
 
         var bootstrap = function(app_container, map_options, app_options){
