@@ -130,7 +130,7 @@
                 };
 
                 m.layer = L.geoJson([], {style: layerStyle}).addTo(map);
-                layerControl.addOverlay(m.layer, 'Species' + m.get('species_id'));
+                layerControl.addOverlay(m.layer, 'Species ' + m.get('species_id'));
                 
                 // 2.3 and fill it
                 _.each(squaresToDisplay, function(s){
@@ -169,7 +169,7 @@
 
         var mapInit = function(map_options){
             // Todo: make dom element configurable
-            var cloudmade;
+            var cloudmade, google;
             var baseLayers;
 
             map = L.map('map').setView(map_options.initial_location, map_options.initial_zoom);
@@ -179,8 +179,11 @@
                 maxZoom: map_options.max_zoom
             }).addTo(map);
 
+            google = new L.Google();
+
             baseLayers = {
-                "CloudMade": cloudmade
+                "CloudMade": cloudmade,
+                "Google": google
             };
 
             layerControl = L.control.layers(baseLayers, {}).addTo(map);

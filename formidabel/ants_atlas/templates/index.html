@@ -61,6 +61,14 @@
 		<script src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.js"></script>
 	{% endaddtoblock %}
 
+	{% addtoblock "js" %}
+		<script src="http://maps.google.com/maps/api/js?v=3.2&sensor=false"></script>
+	{% endaddtoblock %}	
+
+	{% addtoblock "js" %}
+		<script src="{{ STATIC_URL }}ants_atlas/js/leaflet-plugins/Google.js"></script>
+	{% endaddtoblock %}
+
 	<script type="text/javascript">
 	$(function(){
 		$('.colorpicker').colorpicker()
