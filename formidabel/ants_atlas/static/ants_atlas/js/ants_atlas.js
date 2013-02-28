@@ -183,10 +183,25 @@
 
             baseLayers = {
                 "CloudMade": cloudmade,
-                "Google": google
+                "Google satellite": google
             };
 
-            layerControl = L.control.layers(baseLayers, {}).addTo(map);
+            /*
+            var phyto = new OpenLayers.Layer.WMS(
+        "Phytoregions", "http://gis.bebif.be:80/geoserver2/wms",
+        {
+            srs: 'EPSG:900913',
+            layers: 'bbpf:Regions_Phyto_Clipped',
+            transparent: true
+        }*/
+
+            var phytonregions = L.tileLayer.wms("http://gis.bebif.be:80/geoserver2/wms", {
+                layers: 'bbpf:Regions_Phyto_Clipped',
+                format: 'image/png',
+                transparent: true
+            });
+
+            layerControl = L.control.layers(baseLayers, {'phytonregions': phytonregions}).addTo(map);
         };
 
         var bootstrap = function(app_container, map_options, app_options){
