@@ -88,7 +88,7 @@
                 return response.occurrences;
             }
         });
-        
+
         var OccurrenceSearch = Backbone.Model.extend({
             // Fill the data from server
             // Should we overrive fetch instead ?
@@ -185,7 +185,7 @@
             trigger_search: function(){
                 var s = new OccurrenceSearch({
                     species_id: this.$('#species_id').val(),
-                    color: this.$('#color_code').val() // TODO: Make color configurable
+                    color: this.$('#color_code').val()
                 });
 
                 s.loadOccurrences();
