@@ -7,6 +7,30 @@
         var map;
         var layerControl;
 
+        // TODO: Make a module with the next 3 declarations
+        var overlayColorPresets; // List of colors
+        var overlayColorPresets_index=0; // Pointer to this list
+        var nextColorPresetInSearchForm = function(force){
+            // Fill the color field from the form. Will only work if the field is empty or if force is true
+            var new_value;
+            var $elem = $('#color_code');
+            
+            if (force === true || $elem.val() === ''){
+                new_value = overlayColorPresets[overlayColorPresets_index];
+                //$elem.colorpicker('update', new_value);
+                //console.log($elem.colorpicker);
+
+                $elem.val(new_value);
+                overlayColorPresets_index++;
+                if (overlayColorPresets_index === overlayColorPresets.length){
+                    // Cycle on the array
+                    overlayColorPresets_index = 0;
+                }
+                
+            }
+            
+        };
+
         var SQUARE_PROVIDER = (function(){
             var squares;
 
@@ -144,7 +168,7 @@
             },
 
             myremove: function(){
-                layerControl.removeLayer(this.model.layer);
+                layerControl.removeLayer    (this.model.layer);
                 map.removeLayer(this.model.layer); // Do our specific stuff...
                 this.remove(); // Then call backbone's remove() to kill el
             }
@@ -163,6 +187,9 @@
                 });
 
                 s.loadOccurrences();
+
+                // Propose a new color preset for next search
+                nextColorPresetInSearchForm(true);
 
                 return false; // Don't submit the search form
             }
@@ -195,11 +222,16 @@
             });
 
             layerControl = L.control.layers(baseLayers, {'phytonregions': phytonregions}).addTo(map);
+
+            overlayColorPresets = map_options.overlay_color_presets; // Store for future use
         };
 
         var bootstrap = function(app_container, map_options, app_options){
             SQUARE_PROVIDER.initialize(app_options.squares_source_url);
             mapInit(map_options);
+            // propose a first color preset
+            nextColorPresetInSearchForm();
+
             var f = new SearchView({el: app_container}); // Main view that observes the search form
         };
 
