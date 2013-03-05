@@ -32,6 +32,12 @@
 		</div>
 
 		<div id="map"></div>
+
+		{# Templates #}
+		<script type="text/html" id="layerListEntry">
+			<p>Sp: <%= species_name %><i class="icon-trash remove"></i></p>
+		</script>
+
 	</div>
 
 	{% addtoblock "js" %}<script type="text/javascript" src="{{ STATIC_URL }}ants_atlas/js/underscore-min.js"></script>{% endaddtoblock %}

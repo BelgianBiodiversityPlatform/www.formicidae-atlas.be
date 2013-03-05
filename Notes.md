@@ -1,6 +1,7 @@
 # TODO
 
 * Compare data to real atlas
+* Fabric script
 * Use HTML templating with backbone
 * Imagine UI withh full-size / background map
 * Better color picker: default value, show color, ...

@@ -95,7 +95,7 @@
             loadOccurrences: function(){
                 col = new OccurrenceList(this.get('species_id'));
                 this.set('collection', col); // We'll now have a collection attribute
-                
+
                 var that = this;
                 col.fetch({success: function(){
                     // Once its loaded, render that !
@@ -107,6 +107,8 @@
 
         // Should receive a OccurrenceSearch as model argument
         var OccurrenceSearchView = Backbone.View.extend({
+            template: _.template($("#layerListEntry").html()),
+
             events: {
                 'click .remove': 'myremove'
             },
@@ -115,17 +117,17 @@
                 var layerStyle;
                 var squaresToDisplay;
                 var found;
+                var template;
 
                 var m = this.model;
 
                 // 1. Add to search list
-                m.layer_list_entry = $('<p>Species ' + m.get('species_id') + ' <span class="remove">Remove</span>'+ '</p>');
-                $(this.el).html(m.layer_list_entry);
+                $(this.el).html(this.template({ species_name: m.get('species_id') }));
                 $('#search_list').append(this.$el); // TODO: decouple
 
                 // 2. Add to map
                 squaresToDisplay = [];
-                
+
                 // 2.1 Fill squaresToDisplay with square label and # of occurrences
                 m.get('collection').each(function(occ){
                     found = false;
