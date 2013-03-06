@@ -9,16 +9,18 @@
 </head>
 <body>
 	{% cms_toolbar %}
-	<div class="navbar navbar-fixed-top">
-		<div class="navbar-inner">
-			<a class="brand" href="#">Formidabel</a>
-			<ul class="nav">
-				{% show_menu 0 100 100 100 "menu.html" %}
-			</ul>	
-		</div>	
-	</div>
 
 	<div class="container">
+		<div class="navbar navbar-fixed-top navbar-inverse">
+			<div class="navbar-inner">
+				<a class="brand" href="#" style="margin-left: 0">Formidabel</a>
+				<ul class="nav">
+					{% show_menu 0 100 100 100 "menu.html" %}
+				</ul>	
+			</div>	
+		</div>
+
+	
 		<div class="row">
 			<div class="span12">
 				{% block base_content %}{% endblock %}

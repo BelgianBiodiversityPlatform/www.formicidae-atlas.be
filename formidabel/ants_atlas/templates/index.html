@@ -2,39 +2,43 @@
 {% load cms_tags sekizai_tags %}
 
 {% block base_content %}
-	{# Intro text can be configured in Django-CMS #}
-	{% placeholder base_content %}
+{# Intro text can be configured in Django-CMS #}
+{% placeholder base_content %}
 
-	<div id="ants_atlas">
-		<h1>Species map</h1>
+<div id="ants_atlas">
+	<h1>Species map</h1>
 	
+	<div class="well">
 		<form id="search" class="form-inline">
 			<label for="species_id">Species: </label>
 
 			<select id="species_id">
 				{% for g in genus %}
-					<optgroup label="{{ g.name }}">
-						{% for s in g.species_set.all %}
-							<option value="{{ s.pk }}">{{ s.scientificname }}</option>
-						{% endfor %}
-					</optgroup>
+				<optgroup label="{{ g.name }}">
+					{% for s in g.species_set.all %}
+					<option value="{{ s.pk }}">{{ s.scientificname }}</option>
+					{% endfor %}
+				</optgroup>
 				{% endfor %}
 			</select>
 
 			<label for="color_code">Color: </label>
 			<input type="text" name="color_code" id="color_code" class="colorpicker input-mini"/>
-			<input type="submit" value="search" />
+			<button type="submit" class="btn btn-success" /><i class="icon-search icon-white"></i> Search</button>
 		</form>
+	</div>
 
-		<div id="search_list">
+	<div class="row">
+		<div class="span2" id="search_list">
 			<h1>Layers<h1>
-		</div>
+			</div>
 
-		<div id="map"></div>
+			<div class="span10" id="map"></div>
+		</div>
 
 		{# Templates #}
 		<script type="text/html" id="layerListEntry">
-			<p>Sp: <%= species_name %><i class="icon-trash remove"></i></p>
+		<p>Sp: <%= species_name %><i class="icon-trash remove"></i></p>
 		</script>
 
 	</div>
@@ -50,28 +54,28 @@
 	{% addtoblock "js" %}
 
 	{% addtoblock "css" %}
-		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.css" />
-		<!--[if lte IE 8]><link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.ie.css" /><![endif]-->
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.css" />
+	<!--[if lte IE 8]><link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.ie.css" /><![endif]-->
 	{% endaddtoblock %}
 
 	{% addtoblock "css" %}
-		<link rel="stylesheet" href="{{ STATIC_URL }}ants_atlas/css/bootstrap-colorpicker.css" />
+	<link rel="stylesheet" href="{{ STATIC_URL }}ants_atlas/css/bootstrap-colorpicker.css" />
 	{% endaddtoblock %}
 
 	{% addtoblock "css" %}
-		<link rel="stylesheet" href="{{ STATIC_URL }}ants_atlas/css/ants_atlas.css" />
+	<link rel="stylesheet" href="{{ STATIC_URL }}ants_atlas/css/ants_atlas.css" />
 	{% endaddtoblock %}
 
 	{% addtoblock "js" %}
-		<script src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.js"></script>
+	<script src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.js"></script>
 	{% endaddtoblock %}
 
 	{% addtoblock "js" %}
-		<script src="http://maps.google.com/maps/api/js?v=3.2&sensor=false"></script>
+	<script src="http://maps.google.com/maps/api/js?v=3.2&sensor=false"></script>
 	{% endaddtoblock %}	
 
 	{% addtoblock "js" %}
-		<script src="{{ STATIC_URL }}ants_atlas/js/leaflet-plugins/Google.js"></script>
+	<script src="{{ STATIC_URL }}ants_atlas/js/leaflet-plugins/Google.js"></script>
 	{% endaddtoblock %}
 
 	<script type="text/javascript">
@@ -85,10 +89,10 @@
 
 		var map_options = {
 			overlay_color_presets: [
-				'#597d1e',
-				'#d62f2f',
-				'#2f86d6',
-				'#b85c1a'
+			'#597d1e',
+			'#d62f2f',
+			'#2f86d6',
+			'#b85c1a'
 			],
 
 			// TODO: Move to settings.py
@@ -106,4 +110,4 @@
 	</script>
 
 	{% endaddtoblock %}
-{% endblock %}	
+	{% endblock %}	

@@ -1,10 +1,4 @@
-#search_list {
-    float: left;
-    width: 150px;
-}
-
 #map {
-    width: 790px;
+    /* Width is set automatically by Bootstrap grid */
     height: 600px;
-    float: left;
 }
