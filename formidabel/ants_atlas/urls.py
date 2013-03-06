@@ -10,5 +10,8 @@ v1_api.register(MGRSSquareResource())
 
 urlpatterns = patterns('ants_atlas.views',
     url(r'^$', 'index', name="aa_main-view"),
+)
+
+urlpatterns += patterns('',
     url(r'^api/', include(v1_api.urls))
 )
