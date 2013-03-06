@@ -7,11 +7,9 @@
 
 	<div id="ants_atlas">
 		<h1>Species map</h1>
-		{# <h2>{% url resource_name="species" api_name="v1" %}</h2> #}
-
+	
 		<form id="search" class="form-inline">
 			<label for="species_id">Species: </label>
-			{# <input type="text" name="species_id" id="species_id" /> #}
 
 			<select id="species_id">
 				{% for g in genus %}
@@ -81,7 +79,8 @@
 		$('.colorpicker').colorpicker()
 
 		var app_options = {
-			'squares_source_url': '{{ STATIC_URL }}ants_atlas/js/utm5.json'
+			'squares_source_url': '{{ STATIC_URL }}ants_atlas/js/utm5.json',
+			'species_api_url'	: '{% url api_dispatch_list resource_name="species" api_name="v1" %}' /* /api/v1/species/ */
 		};
 
 		var map_options = {

@@ -7,6 +7,8 @@
         var map;
         var layerControl;
 
+        var config; // Contains config passed in app_options
+
         // TODO: Make a module with the next 3 declarations
         var overlayColorPresets; // List of colors
         var overlayColorPresets_index=0; // Pointer to this list
@@ -14,11 +16,9 @@
             // Fill the color field from the form. Will only work if the field is empty or if force is true
             var new_value;
             var $elem = $('#color_code');
-            
+
             if (force === true || $elem.val() === ''){
                 new_value = overlayColorPresets[overlayColorPresets_index];
-                //$elem.colorpicker('update', new_value);
-                //console.log($elem.colorpicker);
 
                 $elem.val(new_value);
                 overlayColorPresets_index++;
@@ -26,9 +26,9 @@
                     // Cycle on the array
                     overlayColorPresets_index = 0;
                 }
-                
+
             }
-            
+
         };
 
         var SQUARE_PROVIDER = (function(){
@@ -79,7 +79,7 @@
             },
 
             url: function(){
-                return '/api/v1/species/' + this.species_id;
+                return config.species_api_url + this.species_id;
             },
 
             // The server "to be stored" data is returned in the occurrences attribute
@@ -229,7 +229,10 @@
         };
 
         var bootstrap = function(app_container, map_options, app_options){
-            SQUARE_PROVIDER.initialize(app_options.squares_source_url);
+            // Keep configuration for future use
+            config = app_options;
+
+            SQUARE_PROVIDER.initialize(config.squares_source_url);
             mapInit(map_options);
             // propose a first color preset
             nextColorPresetInSearchForm();
