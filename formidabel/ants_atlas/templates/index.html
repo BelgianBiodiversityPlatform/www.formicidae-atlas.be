@@ -46,6 +46,13 @@
 			<td><i class="icon-trash remove"></i></td>
 		</script>
 
+		<script type="text/html" id="mapPopupContent">
+			<div>
+				<h3><%= square_id %></h3> 
+				<%= occ_counter %> occurrence(s) for <%= species_name %>.
+			</div>
+		</script>
+
 	</div>
 
 	{% addtoblock "js" %}<script type="text/javascript" src="{{ STATIC_URL }}ants_atlas/js/underscore-min.js"></script>{% endaddtoblock %}

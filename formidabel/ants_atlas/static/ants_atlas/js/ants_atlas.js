@@ -170,7 +170,13 @@
                     },
 
                     onEachFeature: function(feature, layer){
-                        layer.bindPopup('<p>' + feature.properties.occurrence_counter + '</p>');
+                        var p = feature.properties;
+
+                        layer.bindPopup(_.template($("#mapPopupContent").html(), {
+                            occ_counter: p.occurrence_counter,
+                            square_id: p.TAG,
+                            species_name: species_name
+                        }));
                     }
                 }).addTo(map);
 
@@ -192,7 +198,7 @@
                 map.removeLayer(this.model.layer); // Do our specific stuff...
                 this.remove(); // Then call backbone's remove() to kill el
             }
-            
+
         });
 
         var SearchView = Backbone.View.extend({
