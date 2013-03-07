@@ -1,5 +1,8 @@
 # TODO
 
+* Popup on click square
+* Relire mockup
+* Dates (filtering)
 * Compare data to real atlas
 * Fabric script
 * Spinner during search

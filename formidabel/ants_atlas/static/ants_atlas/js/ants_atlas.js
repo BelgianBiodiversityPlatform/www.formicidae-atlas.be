@@ -7,6 +7,8 @@
         var map;
         var layerControl;
 
+        var spinner_layer;
+
         var config; // Contains config passed in app_options
 
         // TODO: Make a module with the next 3 declarations
@@ -97,10 +99,14 @@
                 this.set('collection', col); // We'll now have a collection attribute
 
                 var that = this;
+
+                spinner_layer.fire('data:loading');
+
                 col.fetch({success: function(){
                     // Once its loaded, render that !
                     v = new OccurrenceSearchView({model: that});
                     v.render();
+                    spinner_layer.fire('data:loaded');
                 }});
             }
         });
@@ -223,6 +229,8 @@
                 "CloudMade": cloudmade,
                 "Google satellite": google
             };
+
+            spinner_layer = L.geoJson(null).addTo(map);
 
             // TODO: Make it configurable
             var phytonregions = L.tileLayer.wms("http://gis.bebif.be:80/geoserver2/wms", {

@@ -55,6 +55,7 @@
 
 	{# Use version https://github.com/xaguilars/bootstrap-colorpicker because the original one has issues and is not mainained anymore. #}
 	{% addtoblock "js" %}<script type="text/javascript" src="{{ STATIC_URL }}ants_atlas/js/bootstrap-colorpicker.js"></script>{% endaddtoblock %}
+
 	{% addtoblock "js" %}<script type="text/javascript" src="{{ STATIC_URL }}ants_atlas/js/ants_atlas.js"></script>{% endaddtoblock %}
 	{% addtoblock "js" %}
 
@@ -82,6 +83,10 @@
 	{% addtoblock "js" %}
 	<script src="{{ STATIC_URL }}ants_atlas/js/leaflet-plugins/Google.js"></script>
 	{% endaddtoblock %}
+
+	{% addtoblock "js" %}<script type="text/javascript" src="{{ STATIC_URL }}ants_atlas/js/spin.min.js"></script>{% endaddtoblock %}
+
+	{% addtoblock "js" %}<script type="text/javascript" src="{{ STATIC_URL }}ants_atlas/js/leaflet.spin.js"></script>{% endaddtoblock %}
 
 	<script type="text/javascript">
 	$(function(){
