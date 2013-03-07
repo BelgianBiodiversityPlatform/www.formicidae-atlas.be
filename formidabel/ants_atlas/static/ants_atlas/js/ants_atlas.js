@@ -160,15 +160,20 @@
                     }
                 });
 
-                // 2.2 Create layer...
-                layerStyle = function(feature){
-                    return {
-                        color: m.get('color'),
-                        fillOpacity: feature.properties.occurrence_counter / 5.0
-                    };
-                };
+                // 2.2 Create layer w/ style & popup
+                m.layer = L.geoJson([], {
+                    style: function(feature){
+                        return {
+                            color: m.get('color'),
+                            fillOpacity: feature.properties.occurrence_counter / 5.0
+                        };
+                    },
 
-                m.layer = L.geoJson([], {style: layerStyle}).addTo(map);
+                    onEachFeature: function(feature, layer){
+                        layer.bindPopup('<p>' + feature.properties.occurrence_counter + '</p>');
+                    }
+                }).addTo(map);
+
                 layerControl.addOverlay(m.layer, species_name);
 
                 // 2.3 and fill it
@@ -179,7 +184,7 @@
                         m.layer.addData(square_data);
                     }
                 });
-                
+
             },
 
             myremove: function(){

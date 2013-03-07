@@ -5,7 +5,6 @@
 * Dates (filtering)
 * Compare data to real atlas
 * Fabric script
-* Spinner during search
 * Imagine UI withh full-size / background map
 * Better color picker: show color, ...
 * Complex style when multiple searches on one square
