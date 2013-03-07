@@ -108,6 +108,7 @@
         // Should receive a OccurrenceSearch as model argument
         var OccurrenceSearchView = Backbone.View.extend({
             template: _.template($("#layerListEntry").html()),
+            tagName: 'tr',
 
             events: {
                 'click .remove': 'myremove'
@@ -121,15 +122,21 @@
 
                 var m = this.model;
 
+                var species_name = m.get('species_name');
+                var occurrences = m.get('collection');
+
                 // 1. Add to search list
-                $(this.el).html(this.template({ species_name: m.get('species_id') }));
+                $(this.el).html(this.template({
+                    species_name: species_name,
+                    occurrences_count: _.size(occurrences)
+                }));
                 $('#search_list').append(this.$el); // TODO: decouple
 
                 // 2. Add to map
                 squaresToDisplay = [];
 
                 // 2.1 Fill squaresToDisplay with square label and # of occurrences
-                m.get('collection').each(function(occ){
+                occurrences.each(function(occ){
                     found = false;
                     _.each(squaresToDisplay, function(sq){
                         // If object already exists, increment counter
@@ -156,8 +163,8 @@
                 };
 
                 m.layer = L.geoJson([], {style: layerStyle}).addTo(map);
-                layerControl.addOverlay(m.layer, 'Species ' + m.get('species_id'));
-                
+                layerControl.addOverlay(m.layer, species_name);
+
                 // 2.3 and fill it
                 _.each(squaresToDisplay, function(s){
                     var square_data = SQUARE_PROVIDER.getSquare(s.label);
@@ -185,6 +192,7 @@
             trigger_search: function(){
                 var s = new OccurrenceSearch({
                     species_id: this.$('#species_id').val(),
+                    species_name: this.$("#species_id option:selected").text(),
                     color: this.$('#color_code').val()
                 });
 

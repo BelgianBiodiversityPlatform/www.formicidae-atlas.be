@@ -29,16 +29,21 @@
 	</div>
 
 	<div class="row">
-		<div class="span2" id="search_list">
-			<h2>Layers<h2>
-			</div>
-
-			<div class="span10" id="map"></div>
+		<div class="span3">
+			<h2>Layers</h2>
+			<table class="table table-striped" id="search_list">
+			</table>
 		</div>
+
+		<div class="span9" id="map"></div>
+	</div>
 
 		{# Templates #}
 		<script type="text/html" id="layerListEntry">
-		<p>Sp: <%= species_name %><i class="icon-trash remove"></i></p>
+			// TR added by view
+			<td><span class="badge badge-info"><%= occurrences_count %></span></td>
+			<td><%= species_name %></td>
+			<td><i class="icon-trash remove"></i></td>
 		</script>
 
 	</div>
