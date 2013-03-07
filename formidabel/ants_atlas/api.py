@@ -1,4 +1,4 @@
-from tastypie.resources import ModelResource
+from tastypie.resources import ModelResource, ALL_WITH_RELATIONS
 from tastypie import fields
 
 from ants_atlas.models import Occurrence, Species, MGRSSquare
@@ -28,3 +28,7 @@ class OccurrenceResource(ModelResource):
     class Meta:
         queryset = Occurrence.objects.all()
         resource_name = 'occurrence'
+
+        filtering = {
+            'event_date': ALL_WITH_RELATIONS
+        }

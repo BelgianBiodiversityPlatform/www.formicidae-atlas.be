@@ -164,6 +164,7 @@
                 m.layer = L.geoJson([], {
                     style: function(feature){
                         return {
+                            weight: 2,
                             color: m.get('color'),
                             fillOpacity: feature.properties.occurrence_counter / 5.0
                         };
