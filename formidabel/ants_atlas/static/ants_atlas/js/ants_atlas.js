@@ -88,6 +88,24 @@
             // That's what we should use to build each Occurrence
             parse: function(response){
                 return response.occurrences;
+            },
+
+            my_filter: function(filters){
+                if (filters.min_date) {
+                    var filtered = this.filter(function(o){
+                        var occurrence_date = new Date(o.attributes.event_date); // TODO: should be converted before (on load)
+                    
+                        console.log('occ_date: ' + occurrence_date);
+                        console.log('filter_date: ' + filters.min_date);
+                        
+                        return occurrence_date > filters.min_date;
+                        
+                        });
+                    return new OccurrenceList(filtered);
+                } else { // no filtering
+                    return this;
+                }
+                
             }
         });
 
@@ -103,6 +121,12 @@
                 spinner_layer.fire('data:loading');
 
                 col.fetch({success: function(){
+                    var filtered;
+
+                    if (that.get('filters').min_date){
+                        that.set('collection', col.my_filter({min_date: that.get('filters').min_date}));
+                    }
+
                     // Once its loaded, render that !
                     v = new OccurrenceSearchView({model: that});
                     v.render();
@@ -209,6 +233,9 @@
 
             trigger_search: function(){
                 var s = new OccurrenceSearch({
+                    filters: {
+                        //min_date: new Date('1975-01-01')
+                    },
                     species_id: this.$('#species_id').val(),
                     species_name: this.$("#species_id option:selected").text(),
                     color: this.$('#color_code').val()

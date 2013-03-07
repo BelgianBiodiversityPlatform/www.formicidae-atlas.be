@@ -1,8 +1,7 @@
 # TODO
 
-* Popup on click square
 * Relire mockup
-* Dates (filtering)
+* Dates (filtering) : implement UI + improve code
 * Compare data to real atlas
 * Fabric script
 * Imagine UI withh full-size / background map
@@ -26,6 +25,7 @@
 # API:
 http://localhost:8000/en/api/v1/genus/3/?format=json => 
 
+/en/api/v1/occurrence/?event_date__gte=2012-08-10&format=json
 
 
 
