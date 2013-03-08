@@ -223,7 +223,7 @@
                     }
                 }).addTo(map);
 
-                layerControl.addOverlay(m.layer, species_name);
+                layerControl.addOverlay(m.layer, "Search #" + m.cid);
 
                 // 2.3 and fill it
                 _.each(squaresToDisplay, function(s){

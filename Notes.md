@@ -1,7 +1,6 @@
 # TODO
 
 * Relire mockup
-* Dates (filtering) : implement UI + improve code
 * Compare data to real atlas
 * Fabric script
 * Imagine UI withh full-size / background map
