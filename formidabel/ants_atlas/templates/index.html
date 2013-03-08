@@ -57,7 +57,16 @@
 	<script type="text/html" id="layerListEntry">
 			// TR added by view
 			<td><span class="badge badge-info"><%= occurrences_count %></span></td>
-			<td><%= species_name %></td>
+			<td>
+				<%= species_name %>
+				<ul>
+					<% _.each(_.pairs(filters), function(filter) { %>
+						<% if (filter[1]){ %>
+							<li><%= filter[0] %>: <%= filter[1] %></li>
+						<% } %>	 
+					<% }); %>
+				</ul>
+			</td>
 			<td><i class="icon-trash remove"></i></td>
 			</script>
 

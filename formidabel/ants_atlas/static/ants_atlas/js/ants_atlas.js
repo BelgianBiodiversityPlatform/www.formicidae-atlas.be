@@ -175,7 +175,8 @@
                 // 1. Add to search list
                 $(this.el).html(this.template({
                     species_name: species_name,
-                    occurrences_count: _.size(occurrences)
+                    occurrences_count: _.size(occurrences),
+                    filters: m.get('filters')
                 }));
                 $('#search_list').append(this.$el); // TODO: decouple
 
