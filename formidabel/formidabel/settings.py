@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
 import os
+import sys
+
 gettext = lambda s: s
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
+
+# To find DwcA (TODO: move to proper python dependency)
+sys.path.insert(0, os.path.join(PROJECT_PATH, 'lib/dwca'))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -177,6 +182,16 @@ CMS_TEMPLATES = (
 LANGUAGES = [
     ('en', 'English'),
 ]
+
+import dj_database_url
+
+DATABASES = {}
+DATABASES['default'] = dj_database_url.config()
+
+# Honor the 'X-Forwarded-Proto' header for request.is_secure()
+# (from Heroku doc)
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 
 try:
     from localsettings import *
