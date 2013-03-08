@@ -28,13 +28,19 @@
 			</div>
 
 			<div class="control-group">
-				<label class="control-label" for="min_date">After: </label>
-				<div class="controls"><input type="date" name="min_date" id="min_date" /></div>
-			</div>
+				<div class="controls"><a id="date_link" href="javascript: void(0)">Toggle date filters</a></div>
+			</div>	
 
-			<div class="control-group">
-				<label class="control-label" for="max_date">Before: </label>
-				<div class="controls"><input type="date" name="max_date" id="max_date" /></div>
+			<div style="display: none;" id="date_filters">
+				<div class="control-group">
+					<label class="control-label" for="min_date">After: </label>
+					<div class="controls"><input type="date" name="min_date" id="min_date" /></div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label" for="max_date">Before: </label>
+					<div class="controls"><input type="date" name="max_date" id="max_date" /></div>
+				</div>
 			</div>
 
 			<div class="control-group">
@@ -61,30 +67,30 @@
 			<strong><%= species_name %></strong>
 
 			<small>
-				<ul>
-					<% _.each(_.pairs(filters), function(filter) { %>
-						<% if (filter[1]){ %>
-							<li>
-								<% var label;
+			<ul>
+			<% _.each(_.pairs(filters), function(filter) { %>
+				<% if (filter[1]){ %>
+					<li>
+					<% var label;
 
-								switch(filter[0]) {
-									case 'min_date': label = 'After'; break
-									case 'max_date': label = 'Before'; break
-									default: label=filter[0]  
-								}
-								%>
+					switch(filter[0]) {
+						case 'min_date': label = 'After'; break
+						case 'max_date': label = 'Before'; break
+						default: label=filter[0]  
+					}
+					%>
 
-								<%= label %>
+					<%= label %>
 
-								<%  var curr_date = filter[1].getDate();
+					<%  var curr_date = filter[1].getDate();
     								var curr_month = filter[1].getMonth() + 1; //Months are zero based
     								var curr_year = filter[1].getFullYear(); %>
-    							<%= curr_date + "/" + curr_month + "/" + curr_year %>
-    							
-							</li>
-						<% } %>	 
-					<% }); %>
-				</ul>
+    								<%= curr_date + "/" + curr_month + "/" + curr_year %>
+
+    								</li>
+    								<% } %>	 
+    								<% }); %>
+			</ul>
 			</small>
 			
 			</td>
@@ -142,7 +148,11 @@
 
 		<script type="text/javascript">
 		$(function(){
-			$('.colorpicker').colorpicker()
+			$('.colorpicker').colorpicker();
+
+			$("#date_link").click(function(){
+				$("#date_filters").toggle('slow');
+			});
 
 			var app_options = {
 				'squares_source_url': '{{ STATIC_URL }}ants_atlas/js/utm5.json',
