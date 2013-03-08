@@ -58,14 +58,35 @@
 			// TR added by view
 			<td><span class="badge badge-info"><%= occurrences_count %></span></td>
 			<td>
-				<%= species_name %>
+			<strong><%= species_name %></strong>
+
+			<small>
 				<ul>
 					<% _.each(_.pairs(filters), function(filter) { %>
 						<% if (filter[1]){ %>
-							<li><%= filter[0] %>: <%= filter[1] %></li>
+							<li>
+								<% var label;
+
+								switch(filter[0]) {
+									case 'min_date': label = 'After'; break
+									case 'max_date': label = 'Before'; break
+									default: label=filter[0]  
+								}
+								%>
+
+								<%= label %>
+
+								<%  var curr_date = filter[1].getDate();
+    								var curr_month = filter[1].getMonth() + 1; //Months are zero based
+    								var curr_year = filter[1].getFullYear(); %>
+    							<%= curr_date + "/" + curr_month + "/" + curr_year %>
+    							
+							</li>
 						<% } %>	 
 					<% }); %>
 				</ul>
+			</small>
+			
 			</td>
 			<td><i class="icon-trash remove"></i></td>
 			</script>
