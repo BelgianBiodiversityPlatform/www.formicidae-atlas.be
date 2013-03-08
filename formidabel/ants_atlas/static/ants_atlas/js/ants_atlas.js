@@ -11,6 +11,18 @@
 
         var config; // Contains config passed in app_options
 
+        var utils = {
+            formFieldToDate: function(elem){
+                // Returns a Date object or null
+                var min_date = $(elem).val();
+                if (min_date === ""){
+                    return null;
+                } else {
+                    return new Date(min_date);
+                }
+            }
+        };
+
         // TODO: Make a module with the next 3 declarations
         var overlayColorPresets; // List of colors
         var overlayColorPresets_index=0; // Pointer to this list
@@ -91,21 +103,22 @@
             },
 
             my_filter: function(filters){
+                var results = this;
+
+
                 if (filters.min_date) {
-                    var filtered = this.filter(function(o){
-                        var occurrence_date = new Date(o.attributes.event_date); // TODO: should be converted before (on load)
-                    
-                        console.log('occ_date: ' + occurrence_date);
-                        console.log('filter_date: ' + filters.min_date);
-                        
-                        return occurrence_date > filters.min_date;
-                        
-                        });
-                    return new OccurrenceList(filtered);
-                } else { // no filtering
-                    return this;
-                }
-                
+                    results = new OccurrenceList(results.filter(function(o){
+                        return new Date(o.attributes.event_date) >= filters.min_date;
+                        }));
+                    }
+                if (filters.max_date) {
+                    //console.log("passe max date");
+                    results = new OccurrenceList(results.filter(function(o){
+                        return new Date(o.attributes.event_date) <= filters.max_date;
+                        }));
+                    }    
+
+                return results;
             }
         });
 
@@ -123,8 +136,12 @@
                 col.fetch({success: function(){
                     var filtered;
 
-                    if (that.get('filters').min_date){
-                        that.set('collection', col.my_filter({min_date: that.get('filters').min_date}));
+                    // if (that.get('filters').min_date){
+                    //     that.set('collection', col.my_filter({min_date: that.get('filters').min_date}));
+                    // }
+
+                    if (that.get('filters').min_date || that.get('filters').max_date){
+                        that.set('collection', col.my_filter(that.get('filters')));
                     }
 
                     // Once its loaded, render that !
@@ -234,8 +251,10 @@
             trigger_search: function(){
                 var s = new OccurrenceSearch({
                     filters: {
-                        //min_date: new Date('1975-01-01')
+                        'min_date': utils.formFieldToDate(this.$('#min_date')),
+                        'max_date': utils.formFieldToDate(this.$('#max_date'))
                     },
+
                     species_id: this.$('#species_id').val(),
                     species_name: this.$("#species_id option:selected").text(),
                     color: this.$('#color_code').val()
