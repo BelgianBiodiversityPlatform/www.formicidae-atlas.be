@@ -65,7 +65,7 @@
 
             var getSquare = function(square_id){
                 // Returns GeoJSON object corresponding to the Square ID, or undefined if square is not found.
-            
+
                 var square = _.find(squares.features, function(sq){
                     return sq.properties.TAG == square_id;
                 });
@@ -79,9 +79,9 @@
             };
 
         })();
-        
+
         var Occurrence = Backbone.Model.extend({
-            
+
         });
 
         var OccurrenceList = Backbone.Collection.extend({
@@ -135,10 +135,6 @@
 
                 col.fetch({success: function(){
                     var filtered;
-
-                    // if (that.get('filters').min_date){
-                    //     that.set('collection', col.my_filter({min_date: that.get('filters').min_date}));
-                    // }
 
                     if (that.get('filters').min_date || that.get('filters').max_date){
                         that.set('collection', col.my_filter(that.get('filters')));
