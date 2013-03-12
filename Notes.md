@@ -1,6 +1,7 @@
 # TODO
 
-* Relire mockup
+* Wait for Dimi/Wouter remarks 
+* (Relire mockup)
 * Compare data to real atlas
 * Fabric script
 * Imagine UI withh full-size / background map

@@ -291,28 +291,22 @@
 
             spinner_layer = L.geoJson(null).addTo(map);
 
-            // TODO: Make it configurable
-            var phytonregions = L.tileLayer.wms("http://gis.bebif.be:80/geoserver2/wms", {
-                layers: 'bbpf:Regions_Phyto_Clipped',
-                format: 'image/png',
-                transparent: true
-            });
+            // Create a leyr control with these base layers and config-specified overlays
+            layerControl = L.control.layers(baseLayers, config.map_options.overlays).addTo(map);
 
-            layerControl = L.control.layers(baseLayers, {'phytonregions': phytonregions}).addTo(map);
-
-            overlayColorPresets = map_options.overlay_color_presets; // Store for future use
+            overlayColorPresets = map_options.search_color_presets; // Store for future use
         };
 
-        var bootstrap = function(app_container, map_options, app_options){
+        var bootstrap = function(app_options){
             // Keep configuration for future use
             config = app_options;
 
             SQUARE_PROVIDER.initialize(config.squares_source_url);
-            mapInit(map_options);
+            mapInit(config.map_options);
             // propose a first color preset
             nextColorPresetInSearchForm();
 
-            var f = new SearchView({el: app_container}); // Main view that observes the search form
+            var f = new SearchView({el: config.dom.main_container}); // Main view that observes the search form
         };
 
         // Export public members
