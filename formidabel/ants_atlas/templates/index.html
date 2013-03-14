@@ -32,14 +32,25 @@
 			</div>	
 
 			<div style="display: none;" id="date_filters">
+
+				<div class="control-group">
+					<div class="controls">
+						<div class="btn-group">
+  							<button data-datestart="" data-dateend="01/01/1950" class="btn date_preset">Before 1950</button>
+  							<button data-datestart="01/01/1950" data-dateend="12/31/1980" class="btn date_preset">1950-1980</button>
+  							<button data-datestart="01/01/1981" data-dateend="" class="btn date_preset">After 1980</button>
+						</div>
+					</div>
+				</div>
+				
 				<div class="control-group">
 					<label class="control-label" for="min_date">After: </label>
-					<div class="controls"><input class="input-small" type="date" name="min_date" id="min_date" /></div>
+					<div class="controls"><input class="input-small date" type="text" name="min_date" id="min_date" /></div>
 				</div>
 
 				<div class="control-group">
 					<label class="control-label" for="max_date">Before: </label>
-					<div class="controls"><input class="input-small" type="date" name="max_date" id="max_date" /></div>
+					<div class="controls"><input class="input-small date" type="text" name="max_date" id="max_date" /></div>
 				</div>
 			</div>
 
@@ -127,6 +138,10 @@
 		{% endaddtoblock %}
 
 		{% addtoblock "css" %}
+		<link rel="stylesheet" href="{{ STATIC_URL }}ants_atlas/css/smoothness/jquery-ui-1.10.1.custom.min.css" />
+		{% endaddtoblock %}
+
+		{% addtoblock "css" %}
 		<link rel="stylesheet" href="{{ STATIC_URL }}ants_atlas/css/ants_atlas.css" />
 		{% endaddtoblock %}
 
@@ -142,16 +157,29 @@
 		<script src="{{ STATIC_URL }}ants_atlas/js/leaflet-plugins/Google.js"></script>
 		{% endaddtoblock %}
 
+		{% addtoblock "js" %}
+		<script src="{{ STATIC_URL }}ants_atlas/js/jquery-ui-1.10.1.custom.min.js"></script>
+		{% endaddtoblock %}
+
 		{% addtoblock "js" %}<script type="text/javascript" src="{{ STATIC_URL }}ants_atlas/js/spin.min.js"></script>{% endaddtoblock %}
 
 		{% addtoblock "js" %}<script type="text/javascript" src="{{ STATIC_URL }}ants_atlas/js/leaflet.spin.js"></script>{% endaddtoblock %}
 
 		<script type="text/javascript">
 		$(function(){
+			// Practicalities: color picker, simple dom interactions, ...
 			$('.colorpicker').colorpicker();
+
+			$('.date').datepicker();
 
 			$("#date_link").click(function(){
 				$("#date_filters").toggle('slow');
+			});
+
+			$("button.date_preset").click(function(){
+				$('#min_date').val($(this).attr('data-datestart'));
+				$('#max_date').val($(this).attr('data-dateend'));
+				return false; // Prevent form submission
 			});
 
 			var app_options = {
