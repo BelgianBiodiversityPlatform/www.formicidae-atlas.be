@@ -9,4 +9,4 @@ TIME_ZONE = 'Europe/Brussels'
 LANGUAGE_CODE = 'en-us'
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = '@ea6gs+c+7s9c4acn(-26*kyw@syqi8fvu7qa=@@hr$3(w2c5#'
+SECRET_KEY = 'TYPE SOMETHING SECRET HERE                        '
