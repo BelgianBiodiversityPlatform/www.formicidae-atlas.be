@@ -181,6 +181,21 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Ants Atlas configuration:
 ANTSATLAS_CONFIG = {
+    'initial_lat': 50.6,
+    'initial_lon': 4.3,
+
+    'initial_zoom': 8,
+    'max_zoom': 18,
+
+    # Config of the main map layer (provided by Cloudmade)
+    'cloudmade': {
+        # TODO: Move to local settings ?
+        'api_key': '16534950d4b44d358c7963355dc57dc6',
+
+        'style_id': '998',
+        'attribution': 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
+    },
+
     # Map (WMS) available overlays
     'map_overlays': {
 

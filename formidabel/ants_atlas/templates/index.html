@@ -214,20 +214,17 @@
 						{% endfor %}
 					},
 
-					// TODO: Move to settings.py
-					cloudmade_api_key: "16534950d4b44d358c7963355dc57dc6",
-					cloudmade_style_id: 998, //1930,
+					cloudmade_api_key: "{{ config.cloudmade.api_key }}",
+					cloudmade_style_id: "{{ config.cloudmade.style_id }}",
 
-
-					initial_location: [50.6, 4.3],
-					initial_zoom: 8,
-					attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
-					max_zoom: 18
+					initial_location: [{{ config.initial_lat }}, {{ config.initial_lon }}],
+					initial_zoom: {{ config.initial_zoom }},
+					attribution: {% autoescape off %}'{{ config.cloudmade.attribution }}'{% endautoescape %},
+					max_zoom: {{ config.max_zoom }}
 				}
 			};
 
 		window._formidabel.atlas.bootstrap(app_options);
-		
 	});
 </script>
 
