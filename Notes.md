@@ -1,14 +1,12 @@
 # TODO
 
-
-* Make website lmayout (wait for content?)
-* Wait for Dimi/Wouter remarks 
-* Compare data to real atlas
-* Fabric script
-* Imagine UI withh full-size / background map
-* Better color picker: show color, ...
-* BUG: !! Some squares are outside of Belgium (but close!)...
-* Make date format consitent (search form / layer list, ... )
+* v1.0
+    * Improve layout and put something (lorem ipsum?)
+    * Prepare for GitHub
+    * Fabric script
+    * Imagine UI withh full-size / background map
+    * BUG: !! Some squares are outside of Belgium (but close!)...
+    * Make date format consitent (search form / layer list, ... )
 
 # How to edit Bootstrap theme (changing colors, ...)
 
@@ -22,9 +20,3 @@ cp -R bootstrap/* ../formidabel/static/
 # Postgresl Notes:
 
 * createdb -U postgres -h localhost -p 5432 formidabel
-
-
-# API:
-http://localhost:8000/en/api/v1/genus/3/?format=json => 
-
-/en/api/v1/occurrence/?event_date__gte=2012-08-10&format=json
