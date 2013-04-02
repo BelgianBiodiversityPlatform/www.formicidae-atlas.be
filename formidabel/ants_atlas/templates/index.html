@@ -192,10 +192,9 @@
 
 				'map_options':  {
 					search_color_presets: [
-						'#597d1e',
-						'#d62f2f',
-						'#2f86d6',
-						'#b85c1a'
+						{% for c in config.search_color_presets %}
+							'{{ c }}' {% if not forloop.last %},{% endif %}
+						{% endfor %}
 					],
 
 					overlays: {

@@ -180,9 +180,8 @@ DATABASES['default'] = dj_database_url.config()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Ants Atlas configuration:
-
-# Map (WMS) available overlays
 ANTSATLAS_CONFIG = {
+    # Map (WMS) available overlays
     'map_overlays': {
 
         'Phytoregions': {
@@ -204,38 +203,16 @@ ANTSATLAS_CONFIG = {
             'cql_filter': 'CODE_00=313',
             'styles': 'CORINE_DISTINCT_FOREST'},
     },
+
+    # A few color presets are available for first searches...
+    'search_color_presets': [
+        '#597d1e',
+        '#d62f2f',
+        '#2f86d6',
+        '#b85c1a',
+    ]
+
 }
-
-
-# {
-#                         'Phytoregions': L.tileLayer.wms("http://gis.bebif.be:80/geoserver2/wms", {
-#                             layers: 'bbpf:Regions_Phyto_Clipped',
-#                             format: 'image/png',
-#                             transparent: true 
-#                         }),
-#                         'Broad-leaved forest': L.tileLayer.wms("http://gis.bebif.be:80/geoserver2/wms", {
-#                             layers: 'eea:mergedandclipped',
-#                             format: 'image/png',
-#                             transparent: true,
-#                             cql_filter: 'CODE_00=311',
-#                             styles: 'CORINE_DISTINCT_FOREST'
-#                         }),
-#                         'Coniferous forest': L.tileLayer.wms("http://gis.bebif.be:80/geoserver2/wms", {
-#                             layers: 'eea:mergedandclipped',
-#                             format: 'image/png',
-#                             transparent: true,
-#                             cql_filter: 'CODE_00=312',
-#                             styles: 'CORINE_DISTINCT_FOREST'
-#                         }),
-#                         'Mixed forest': L.tileLayer.wms("http://gis.bebif.be:80/geoserver2/wms", {
-#                             layers: 'eea:mergedandclipped',
-#                             format: 'image/png',
-#                             transparent: true,
-#                             cql_filter: 'CODE_00=313',
-#                             styles: 'CORINE_DISTINCT_FOREST'
-#                         })
-#                     }
-
 
 try:
     from localsettings import *
