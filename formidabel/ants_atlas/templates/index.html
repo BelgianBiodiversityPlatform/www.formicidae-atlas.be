@@ -199,32 +199,20 @@
 					],
 
 					overlays: {
-						'Phytoregions': L.tileLayer.wms("http://gis.bebif.be:80/geoserver2/wms", {
-                			layers: 'bbpf:Regions_Phyto_Clipped',
-                			format: 'image/png',
-                			transparent: true 
-                		}),
-                		'Broad-leaved forest': L.tileLayer.wms("http://gis.bebif.be:80/geoserver2/wms", {
-                			layers: 'eea:mergedandclipped',
-                			format: 'image/png',
-                			transparent: true,
-                			cql_filter: 'CODE_00=311',
-                			styles: 'CORINE_DISTINCT_FOREST'
-                		}),
-                		'Coniferous forest': L.tileLayer.wms("http://gis.bebif.be:80/geoserver2/wms", {
-                			layers: 'eea:mergedandclipped',
-                			format: 'image/png',
-                			transparent: true,
-                			cql_filter: 'CODE_00=312',
-                			styles: 'CORINE_DISTINCT_FOREST'
-                		}),
-                		'Mixed forest': L.tileLayer.wms("http://gis.bebif.be:80/geoserver2/wms", {
-                			layers: 'eea:mergedandclipped',
-                			format: 'image/png',
-                			transparent: true,
-                			cql_filter: 'CODE_00=313',
-                			styles: 'CORINE_DISTINCT_FOREST'
-                		})
+						{% for k,v in config.map_overlays.items %}
+							'{{ k }}': L.tileLayer.wms("{{ v.url }}", {
+								layers: '{{ v.layers }}'
+								,format: 'image/png'
+								,transparent: true
+								{% if v.cql_filter %}
+									,cql_filter: '{{ v.cql_filter }}'
+								{% endif %}
+								{% if v.styles %}
+									,styles: '{{ v.styles }}'
+								{% endif %}
+
+							}) {% if not forloop.last %},{% endif %}
+						{% endfor %}
 					},
 
 					// TODO: Move to settings.py

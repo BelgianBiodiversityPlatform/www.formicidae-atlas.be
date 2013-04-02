@@ -170,14 +170,71 @@ LANGUAGES = [
     ('en', 'English'),
 ]
 
+# Let's set up a few things for easy Heroku deployment
 import dj_database_url
-
 DATABASES = {}
 DATABASES['default'] = dj_database_url.config()
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 # (from Heroku doc)
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# Ants Atlas configuration:
+
+# Map (WMS) available overlays
+ANTSATLAS_CONFIG = {
+    'map_overlays': {
+
+        'Phytoregions': {
+            'url': 'http://gis.bebif.be:80/geoserver2/wms',
+            'layers': 'bbpf:Regions_Phyto_Clipped'},
+        'Broad-leaved forest': {
+            'url': 'http://gis.bebif.be:80/geoserver2/wms',
+            'layers': 'eea:mergedandclipped',
+            'cql_filter': 'CODE_00=311',
+            'styles': 'CORINE_DISTINCT_FOREST'},
+        'Coniferous forest': {
+            'url': 'http://gis.bebif.be:80/geoserver2/wms',
+            'layers': 'eea:mergedandclipped',
+            'cql_filter': 'CODE_00=312',
+            'styles': 'CORINE_DISTINCT_FOREST'},
+        'Mixed forest': {
+            'url': 'http://gis.bebif.be:80/geoserver2/wms',
+            'layers': 'eea:mergedandclipped',
+            'cql_filter': 'CODE_00=313',
+            'styles': 'CORINE_DISTINCT_FOREST'},
+    },
+}
+
+
+# {
+#                         'Phytoregions': L.tileLayer.wms("http://gis.bebif.be:80/geoserver2/wms", {
+#                             layers: 'bbpf:Regions_Phyto_Clipped',
+#                             format: 'image/png',
+#                             transparent: true 
+#                         }),
+#                         'Broad-leaved forest': L.tileLayer.wms("http://gis.bebif.be:80/geoserver2/wms", {
+#                             layers: 'eea:mergedandclipped',
+#                             format: 'image/png',
+#                             transparent: true,
+#                             cql_filter: 'CODE_00=311',
+#                             styles: 'CORINE_DISTINCT_FOREST'
+#                         }),
+#                         'Coniferous forest': L.tileLayer.wms("http://gis.bebif.be:80/geoserver2/wms", {
+#                             layers: 'eea:mergedandclipped',
+#                             format: 'image/png',
+#                             transparent: true,
+#                             cql_filter: 'CODE_00=312',
+#                             styles: 'CORINE_DISTINCT_FOREST'
+#                         }),
+#                         'Mixed forest': L.tileLayer.wms("http://gis.bebif.be:80/geoserver2/wms", {
+#                             layers: 'eea:mergedandclipped',
+#                             format: 'image/png',
+#                             transparent: true,
+#                             cql_filter: 'CODE_00=313',
+#                             styles: 'CORINE_DISTINCT_FOREST'
+#                         })
+#                     }
 
 
 try:

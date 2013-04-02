@@ -4,7 +4,7 @@ Architecture overview
 This is a Django project made of two main apps:
 
 - A `django CMS`_ install to manage simple content (static texts, images, ...)
-- A custom 'formidabel' Django app that allows searching and displaying ants occurrences on a `Leaflet`_ map. It imports its data directly from the Darwin Core Archive published by the `IPT`_.
+- A custom 'ants_atlas' Django app that allows searching and displaying ants occurrences on a `Leaflet`_ map. It imports its data directly from the Darwin Core Archive published by the `IPT`_.
 
 Deployment instructions
 =======================
@@ -15,7 +15,7 @@ Deployment instructions
 - Create localsettings.py
 - Create database (and configure it with dj-database-url)
 - Create an admin and basic CMS pages
-- Configure the formidabel AppHook on a page
+- Configure the ants_atlas AppHook on a page
 - Import DwcA data into formidabel
 
 Visual customization
