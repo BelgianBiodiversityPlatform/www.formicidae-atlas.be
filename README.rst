@@ -12,6 +12,8 @@ Deployment instructions
 (TODO: improve this)
 
 - Install requirements
+- Create localsettings.py
+- Create database and configure it (dj-database-url)
 - Create an admin and basic CMS pages
 - Configure the formidabel AppHook on a page
 - Import DwcA data into formidabel
