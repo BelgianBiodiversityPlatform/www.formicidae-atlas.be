@@ -63,6 +63,7 @@
 		<div class="span3" id="aa-layerslist">
 				<h3>Searches</h3>
 				<div id="aa-layerslist-inner">
+					<p id="no_search_yet" style="text-align: center;"><i><small>No searches performed yet.</small><i></p>
 					<table class="table table-striped" id="search_list"></table>
 				</div>	
 		</div>
@@ -76,9 +77,9 @@
 			// TR added by view
 			<td><span class="badge badge-info"><%= occurrences_count %></span></td>
 			<td>
+			<small>
 			<strong><%= species_name %></strong>
 
-			<small>
 			<ul>
 			<% _.each(_.pairs(filters), function(filter) { %>
 				<% if (filter[1]){ %>

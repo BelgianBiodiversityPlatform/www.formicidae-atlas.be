@@ -246,6 +246,8 @@
             },
 
             trigger_search: function(){
+                $("#no_search_yet").hide();
+
                 var s = new OccurrenceSearch({
                     filters: {
                         'min_date': utils.formFieldToDate(this.$('#min_date')),

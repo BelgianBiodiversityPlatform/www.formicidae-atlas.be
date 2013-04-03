@@ -21,10 +21,10 @@
 
 #aa-layerslist-inner {
     overflow-y: auto;
-    height: 250px;
+    max-height: 250px;
 }
 
 #aa-searchformcontainer {
-    margin-bottom: 0;
+    margin-bottom: 5px;
     padding-bottom: 0;
 }
