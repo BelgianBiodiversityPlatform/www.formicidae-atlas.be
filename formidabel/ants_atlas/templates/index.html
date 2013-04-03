@@ -6,13 +6,13 @@
 {% placeholder base_content %}
 
 <div id="ants_atlas">
-	<h1>Atlas</h1>
+	<h1>Atlas search</h1>
 	
-	<div class="well">
+	<div class="well" id="aa-searchformcontainer">
 		<form id="search" class="form-horizontal">
 			<div class="control-group">
-				<label class="control-label" for="species_id">Species: </label>
-				<div class="controls">
+				<label class="control-label" for="species_id" style="text-align: left; width: 80px;"><b>Species:</b></label>
+				<div class="controls" style="margin-left: 20px">
 					<select id="species_id">
 						{% for g in genus %}
 						<optgroup label="{{ g.name }}">
@@ -24,21 +24,21 @@
 					</select>
 
 					<input type="text" name="color_code" id="color_code" class="colorpicker input-mini"/>
+
+					<button type="submit" class="btn btn-success" /><i class="icon-search icon-white"></i> Search</button>
+
+					<span style="text-align: right; display: inline-block; width: 250px;"><a id="date_link" href="javascript: void(0)">Toggle date filters</a></span>
 				</div>
 			</div>
-
-			<div class="control-group">
-				<div class="controls"><a id="date_link" href="javascript: void(0)">Toggle date filters</a></div>
-			</div>	
 
 			<div style="display: none;" id="date_filters">
 
 				<div class="control-group">
 					<div class="controls">
 						<div class="btn-group">
-  							<button data-datestart="" data-dateend="01/01/1950" class="btn date_preset">Before 1950</button>
-  							<button data-datestart="01/01/1950" data-dateend="12/31/1980" class="btn date_preset">1950-1980</button>
-  							<button data-datestart="01/01/1981" data-dateend="" class="btn date_preset">After 1980</button>
+							<button data-datestart="" data-dateend="01/01/1950" class="btn date_preset">Before 1950</button>
+							<button data-datestart="01/01/1950" data-dateend="12/31/1980" class="btn date_preset">1950-1980</button>
+							<button data-datestart="01/01/1981" data-dateend="" class="btn date_preset">After 1980</button>
 						</div>
 					</div>
 				</div>
@@ -54,20 +54,21 @@
 				</div>
 			</div>
 
-			<div class="control-group">
-				<div class="controls"><button type="submit" class="btn btn-success" /><i class="icon-search icon-white"></i> Search</button></div>
-			</div>
 		</form>
 	</div>
 
-	<div class="row">
-		<div class="span3">
-			<h2>Layers</h2>
-			<table class="table table-striped" id="search_list">
-			</table>
+	{# We need to position aa-layerslist absolutely within. #}
+	<div class="row" style="position: relative;">
+
+		<div class="span3" id="aa-layerslist">
+				<h3>Searches</h3>
+				<div id="aa-layerslist-inner">
+					<table class="table table-striped" id="search_list"></table>
+				</div>	
 		</div>
 
-		<div class="span9" id="map"></div>
+		<div class="span12" id="map"></div>
+
 	</div>
 
 	{# Templates #}
@@ -192,25 +193,25 @@
 
 				'map_options':  {
 					search_color_presets: [
-						{% for c in config.search_color_presets %}
-							'{{ c }}' {% if not forloop.last %},{% endif %}
-						{% endfor %}
+					{% for c in config.search_color_presets %}
+					'{{ c }}' {% if not forloop.last %},{% endif %}
+					{% endfor %}
 					],
 
 					overlays: {
 						{% for k,v in config.map_overlays.items %}
-							'{{ k }}': L.tileLayer.wms("{{ v.url }}", {
-								layers: '{{ v.layers }}'
-								,format: 'image/png'
-								,transparent: true
-								{% if v.cql_filter %}
-									,cql_filter: '{{ v.cql_filter }}'
-								{% endif %}
-								{% if v.styles %}
-									,styles: '{{ v.styles }}'
-								{% endif %}
+						'{{ k }}': L.tileLayer.wms("{{ v.url }}", {
+							layers: '{{ v.layers }}'
+							,format: 'image/png'
+							,transparent: true
+							{% if v.cql_filter %}
+							,cql_filter: '{{ v.cql_filter }}'
+							{% endif %}
+							{% if v.styles %}
+							,styles: '{{ v.styles }}'
+							{% endif %}
 
-							}) {% if not forloop.last %},{% endif %}
+						}) {% if not forloop.last %},{% endif %}
 						{% endfor %}
 					},
 
@@ -224,8 +225,8 @@
 				}
 			};
 
-		window._formidabel.atlas.bootstrap(app_options);
-	});
+			window._formidabel.atlas.bootstrap(app_options);
+		});
 </script>
 
 {% endaddtoblock %}

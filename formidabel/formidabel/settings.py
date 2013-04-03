@@ -181,8 +181,8 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Ants Atlas configuration:
 ANTSATLAS_CONFIG = {
-    'initial_lat': 50.6,
-    'initial_lon': 4.3,
+    'initial_lat': 50.4666,
+    'initial_lon': 4.1833,
 
     'initial_zoom': 8,
     'max_zoom': 18,

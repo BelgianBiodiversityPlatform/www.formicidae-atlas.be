@@ -2,6 +2,7 @@
 
 * v1.0
     * Improve layout and put something (lorem ipsum?)
+    * Test browser compatibility
     * Prepare for GitHub
     * Fabric script
     * Imagine UI withh full-size / background map

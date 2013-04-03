@@ -2,3 +2,29 @@
     /* Width is set automatically by Bootstrap grid */
     height: 600px;
 }
+
+#aa-layerslist {
+    background-color: #e0dfb1;
+    border: 1px solid #d6d597;;
+    
+    position: absolute;
+    left: 20px;
+    bottom: 20px;
+
+    z-index: 8000;
+    box-shadow: 4px 4px 8px rgba(0,0,0,0.2);
+}
+
+#aa-layerslist h3 {
+    text-align: center;
+}
+
+#aa-layerslist-inner {
+    overflow-y: auto;
+    height: 250px;
+}
+
+#aa-searchformcontainer {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
