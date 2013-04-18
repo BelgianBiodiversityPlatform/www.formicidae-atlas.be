@@ -2,3 +2,4 @@
 formidabel/formidabel/localsettings.py
 .DS_Store
 formidabel/fabfile.py
+formidabel/formidabel/media
