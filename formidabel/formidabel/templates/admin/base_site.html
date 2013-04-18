@@ -1,0 +1,12 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block title %}{{ title }} | {% trans 'Ants atlas site admin' %}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">{% trans 'Ants atlas administration' %}</h1>
+{% endblock %}
+
+{% block nav-global %}
+<a href="{% url pages-root %}">{% trans "Go to public website" %}</a>
+{% endblock %}
