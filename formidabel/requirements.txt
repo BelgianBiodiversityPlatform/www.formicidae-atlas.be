@@ -21,5 +21,6 @@ paramiko==1.10.0
 psycopg2==2.4.6
 pycrypto==2.6
 python-dateutil==2.1
+python-dwca-reader==0.1.1
 six==1.2.0
 wsgiref==0.1.2

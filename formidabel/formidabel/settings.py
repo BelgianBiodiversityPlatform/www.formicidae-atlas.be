@@ -5,9 +5,6 @@ import sys
 gettext = lambda s: s
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
 
-# To find DwcA (TODO: move to proper python dependency)
-sys.path.insert(0, os.path.join(PROJECT_PATH, 'lib/dwca'))
-
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 

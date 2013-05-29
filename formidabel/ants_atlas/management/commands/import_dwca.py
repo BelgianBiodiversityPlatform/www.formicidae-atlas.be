@@ -3,7 +3,8 @@ from optparse import make_option
 from django.core.management.base import BaseCommand, CommandError
 from ants_atlas.models import Occurrence, MGRSSquare, Family, Genus, Species
 
-from dwca import DwcAReader
+from dwca import DwCAReader
+from dwca.darwincore.utils import qualname as qn
 
 
 def get_or_create_taxonomy(family, genus, species, scientificname, specificepithet):
@@ -26,23 +27,24 @@ def create_occurrence_from_dwcaline(line):
 
     # Simple fields
     # TODO: move these long Dwc strings to a specific module ?
-    occ.catalog_number = line.get('http://rs.tdwg.org/dwc/terms/catalogNumber')
+    occ.catalog_number = line.data[qn('catalogNumber')]
     occ.scientificname = ''  # TODO: Remove this field
-    event_date = line.get('http://rs.tdwg.org/dwc/terms/eventDate')
+    event_date = line.data[qn('eventDate')]
     if event_date != '':
         occ.event_date = event_date
 
     # Foreign keys
-    mgrs_id = line.get('http://rs.tdwg.org/dwc/terms/verbatimCoordinates')
+    mgrs_id = line.data[qn('verbatimCoordinates')]
     occ.square = MGRSSquare.objects.get_or_create(label=mgrs_id)[0]
 
-    species = line.get('http://rs.tdwg.org/dwc/terms/specificEpithet')
-    genus = line.get('http://rs.tdwg.org/dwc/terms/genus')
-    family = line.get('http://rs.tdwg.org/dwc/terms/family')
-    scientificname = line.get('http://rs.tdwg.org/dwc/terms/scientificName')
-    specificepithet = line.get('http://rs.tdwg.org/dwc/terms/specificEpithet')
+    species = line.data[qn('specificEpithet')]
+    genus = line.data[qn('genus')]
+    family = line.data[qn('family')]
+    scientificname = line.data[qn('scientificName')]
+    specificepithet = line.data[qn('specificEpithet')]
 
-    occ.species = get_or_create_taxonomy(family, genus, species, scientificname, specificepithet)
+    occ.species = get_or_create_taxonomy(family, genus, species,
+                                         scientificname, specificepithet)
 
     occ.save()
 
@@ -54,17 +56,10 @@ class Command(BaseCommand):
 
     option_list = BaseCommand.option_list + (
         make_option('--truncate',
-            action='store_true',
-            dest='truncate',
-            default=False,
-            help='Truncate existing records before importing.'),
-
-        make_option('--no-skip-first-line',
-            action='store_false',
-            dest='skip_fist_line',
-            default=True,
-            help='Skip first line of DwcA.'),
-        )
+                    action='store_true',
+                    dest='truncate',
+                    default=False,
+                    help='Truncate existing records before importing.'),)
 
     def handle(self, *args, **options):
         if len(args) != 1:
@@ -73,7 +68,7 @@ class Command(BaseCommand):
             source_filename = args[0]
 
             try:
-                source = DwcAReader(source_filename)
+                source = DwCAReader(source_filename)
 
                 if options['truncate']:
                     self.stdout.write("Truncating existing records...")
@@ -82,9 +77,6 @@ class Command(BaseCommand):
 
                 lines = source.each_line()
 
-                if options['skip_fist_line']:
-                    next(lines)
-                
                 for l in lines:
                     self.stdout.write('.')
                     create_occurrence_from_dwcaline(l)
@@ -92,5 +84,3 @@ class Command(BaseCommand):
             except IOError as e:
                 raise CommandError('Cannot open source DwcA: %s' % source_filename)
 
-
-        
