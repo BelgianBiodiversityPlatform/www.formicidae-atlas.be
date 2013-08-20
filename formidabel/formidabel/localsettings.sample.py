@@ -9,4 +9,12 @@ TIME_ZONE = 'Europe/Brussels'
 LANGUAGE_CODE = 'en-us'
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'TYPE SOMETHING SECRET HERE                        '
+SECRET_KEY = 'TYPE SOMETHING SECRET HERE'
+
+GOOGLE_ANALYTICS_CODE = """
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  ...
+  ...
+</script>
+"""
